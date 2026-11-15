@@ -2,7 +2,7 @@ import { atom, read, update } from 'claude-code'
 import type { Register } from 'claude-code'
 
 import type { Dose } from '../types'
-import { DUREE, carte, estArret, normaliser, prescrire } from './substances'
+import { carte, estArret, normaliser, prescrire } from './substances'
 
 // La dose en cours : quelle substance, et combien de réponses il lui reste.
 const dose = atom({ plugin: 'eden200', key: 'dose' } as const, null)
@@ -12,7 +12,7 @@ export const register: Register = on => {
     await $.command.register({
       name: 'eden',
       description: 'Éden 200 : sert une substance à Claude pour trois réponses',
-      argumentHint: '[substance] [léger | fort] | ajeun | liste',
+      argumentHint: '[essai] [substance] [léger | fort] | ajeun | liste',
     })
 
     return next(e)
@@ -44,11 +44,12 @@ export const register: Register = on => {
       }
     }
 
-    const servie: Dose = { id: ordonnance.id, nom: ordonnance.nom, reste: DUREE }
+    const servie: Dose = { id: ordonnance.id, nom: ordonnance.nom, reste: ordonnance.duree }
     await update($, dose, () => servie)
+    const pour = ordonnance.duree > 1 ? `${ordonnance.duree} réponses` : '1 réponse'
 
     return {
-      text: `Éden 200 : ${ordonnance.nom}, pour ${DUREE} réponses. /eden ajeun pour arrêter.`,
+      text: `Éden 200 : ${ordonnance.nom}, pour ${pour}. /eden ajeun pour arrêter.`,
       // Ce que Claude lit et que la personne ne voit pas : la consigne de style.
       context: [ordonnance.consigne],
     }

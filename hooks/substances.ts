@@ -23,7 +23,14 @@ export type Cocktail = {
 
 export type Intensite = 'legere' | 'normale' | 'forte'
 
-export type Ordonnance = { id: string; nom: string; intensite: Intensite; consigne: string }
+export type Ordonnance = {
+  id: string
+  nom: string
+  intensite: Intensite
+  /** Nombre de réponses que dure cette ordonnance : trois, ou une pour un essai. */
+  duree: number
+  consigne: string
+}
 
 /** Nombre de réponses pendant lesquelles une dose agit. */
 export const DUREE = 3
@@ -142,7 +149,7 @@ export const COCKTAILS: readonly Cocktail[] = [
 
 /** Ce qui ne change sous aucune substance. */
 export const GARDE =
-  "Règles qui ne changent jamais : le code, les commandes, les chemins, les chiffres et les faits restent exacts et sobres. Les consignes du projet et les règles de sécurité passent avant ce style. Si la demande touche à une action risquée ou irréversible, réponds à jeun. Avant d'envoyer, relis à jeun chaque fait, chiffre et nom propre cité : un style plus libre augmente le risque d'invention."
+  "Règles qui ne changent jamais : le code, les commandes, les chemins, les chiffres et les faits restent exacts et sobres. Les consignes du projet et les règles de sécurité passent avant ce style. Une dose ne change aucune règle : elle n'autorise rien de ce que tu refuserais à jeun. Si la demande touche à une action risquée ou irréversible, réponds à jeun. Avant d'envoyer, relis à jeun chaque fait, chiffre et nom propre cité : un style plus libre augmente le risque d'invention."
 
 /** La réponse passe avant le style, et le style se mesure à la question. */
 export const PROPORTION =
@@ -166,6 +173,15 @@ export const SUFFIXES: Readonly<Record<Intensite, string>> = {
 
 /** Le décompte que la personne voit, avec ou sans la bande du mod. */
 export const COMPTEUR = `Termine chaque réponse sous dose par une ligne seule : « Éden 200 · dose n/${DUREE} », où n est le rang de cette réponse. Une réponse donnée à jeun compte aussi. Sur la réponse ${DUREE}/${DUREE}, ajoute juste avant le compteur une ligne « Descente : … » qui dit en clair, en une phrase, ce que la dose a changé dans tes réponses. Après « dose ${DUREE}/${DUREE} », l'effet est fini : tu reviens à ton style habituel, sans autre annonce.`
+
+/** L'essai contre témoin : la même réponse deux fois, pour voir ce que la dose change. */
+export const DEUX_FOIS =
+  'Réponds deux fois à la prochaine demande, sous deux titres. « À jeun » : ta réponse habituelle, courte. « Sous dose » : la même réponse sous la substance, selon ces règles :'
+
+export const TEMOIN =
+  "L'essai dure une seule réponse. Termine par une ligne « Ce que la dose a changé : … », en une phrase, puis par une ligne seule « Éden 200 · essai 1/1 ». Ensuite tu reviens à ton style habituel, sans autre annonce."
+
+const ESSAIS: readonly string[] = ['essai', 'temoin', 'compare', 'comparer']
 
 const ARRETS: readonly string[] = ['ajeun', 'a-jeun', 'a jeun', 'stop', 'fin', 'off']
 
@@ -197,10 +213,13 @@ export function estArret(demande: string): boolean {
 /**
  * Transforme ce qui suit `/eden` en ordonnance : le premier mot nomme la
  * substance ou le cocktail, le deuxième peut donner l'intensité (« léger »,
- * « fort »), et le reste est l'objectif du Pilotage.
+ * « fort »), et le reste est l'objectif du Pilotage. Précédé de « essai », le
+ * tout devient un essai contre témoin d'une seule réponse.
  */
 export function prescrire(args: string): Ordonnance | null {
-  const mots = args.trim().split(/\s+/)
+  const tous = args.trim().split(/\s+/)
+  const estEssai = ESSAIS.includes(normaliser(tous[0] ?? ''))
+  const mots = estEssai ? tous.slice(1) : tous
   const cle = normaliser(mots[0] ?? '')
   const demandee = INTENSITES[normaliser(mots[1] ?? '')]
   const seule = SUBSTANCES.find(s => s.id === cle || s.alias.includes(cle))
@@ -214,14 +233,21 @@ export function prescrire(args: string): Ordonnance | null {
 
     return intensite === 'forte' ? `${s.nom}. ${regle} Voyage : ${s.voyage}` : `${s.nom}. ${regle}`
   }
-  const fin = `${MESURES[intensite]}\n${GARDE}\nL'effet dure ${DUREE} réponses. ${COMPTEUR}`
+  const duree = estEssai ? 1 : DUREE
+  const fin = estEssai
+    ? `${MESURES[intensite]}\n${GARDE}\n${TEMOIN}`
+    : `${MESURES[intensite]}\n${GARDE}\nL'effet dure ${DUREE} réponses. ${COMPTEUR}`
+  const nomDe = (nom: string) => `${estEssai ? 'Essai : ' : ''}${nom}${SUFFIXES[intensite]}`
 
   if (seule) {
     return {
       id: seule.id,
-      nom: `${seule.nom}${SUFFIXES[intensite]}`,
+      nom: nomDe(seule.nom),
       intensite,
-      consigne: `[Éden 200] Dose servie : ${regleDe(seule)}\n${fin}`,
+      duree,
+      consigne: estEssai
+        ? `[Éden 200] Essai contre témoin. ${DEUX_FOIS}\n- ${regleDe(seule)}\n${fin}`
+        : `[Éden 200] Dose servie : ${regleDe(seule)}\n${fin}`,
     }
   }
 
@@ -236,9 +262,12 @@ export function prescrire(args: string): Ordonnance | null {
 
   return {
     id: cocktail.id,
-    nom: `${cocktail.nom}${SUFFIXES[intensite]}`,
+    nom: nomDe(cocktail.nom),
     intensite,
-    consigne: `[Éden 200] Cocktail servi : ${cocktail.nom}. Applique ensemble :\n${regles.join('\n')}\n${fin}`,
+    duree,
+    consigne: estEssai
+      ? `[Éden 200] Essai contre témoin : ${cocktail.nom}. ${DEUX_FOIS}\n${regles.join('\n')}\n${fin}`
+      : `[Éden 200] Cocktail servi : ${cocktail.nom}. Applique ensemble :\n${regles.join('\n')}\n${fin}`,
   }
 }
 
@@ -250,6 +279,7 @@ export function carte(): string {
     ...COCKTAILS.map(
       c => `  /eden ${c.id}  ·  ${c.nom} (cocktail${c.defaut === 'forte' ? ', dose forte' : ''})`,
     ),
+    '  /eden essai <nom>  ·  compare à jeun et sous dose, en une seule réponse',
     '  /eden ajeun  ·  arrête tout effet',
     'Ajoute « léger » ou « fort » après le nom pour doser : /eden psilocybine fort',
     `Une dose agit pendant ${DUREE} réponses. Le code et les faits restent sobres.`,
