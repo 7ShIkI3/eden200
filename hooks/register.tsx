@@ -31,7 +31,7 @@ export const register: Register = on => {
     await $.command.register({
       name: 'eden',
       description: 'Éden 200 : sert une substance à Claude pour trois réponses',
-      argumentHint: '[essai] [substance] [léger | fort | dur] | sequelles | oublie | ajeun | liste',
+      argumentHint: '[essai | une] [substance] [léger | fort | dur] | sequelles | oublie | ajeun | liste',
     })
 
     return next(e)

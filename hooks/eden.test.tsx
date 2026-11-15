@@ -224,8 +224,14 @@ test('/eden delire sert la dose dure : inventions marquées et séquelle demand�
   expect(semee?.[1]).not.toBe(semee?.[2])
   expect(delire.context?.[0]).toContain(`Graine : « ${semee?.[1]} » et « ${semee?.[2]} ».`)
   expect(delire.context?.[0]).toContain('Fabrique. Invention.')
-  expect(delire.context?.[0]).toContain('Invente au moins trois choses de genres différents')
-  expect(delire.context?.[0]).toContain('le code livré doit quand même fonctionner')
+  // L'œuvre d'abord, la première idée écartée, et pas de décor dans le livrable.
+  expect(delire.context?.[0]).toContain('« Écarté : … », puis pars ailleurs')
+  expect(delire.context?.[0]).toContain("livre ensuite l'œuvre, entière et propre")
+  expect(delire.context?.[0]).toContain("ni liste d'angles, ni palette, ni autocritique")
+  expect(delire.context?.[0]).toContain('simule deux tours d\'un jeu')
+  expect(delire.context?.[0]).toContain('le code livré doit fonctionner')
+  expect(delire.context?.[0]).toContain('Ajoute un visuel seulement si le sujet est visuel')
+  expect(delire.context?.[0]).toContain('invente au moins trois choses de genres différents')
   expect(delire.context?.[0]).toContain('Voyage : Tu inventes sans compter')
   // Les garde-fous restent, et une invention ne passe jamais pour un fait.
   expect(delire.context?.[0]).toContain('restent exacts et sobres')
@@ -342,4 +348,40 @@ test('la graine tire deux mots différents, quel que soit le hasard', async () =
   }
   // Aucun doublon dans la liste, sinon deux tirages différents donneraient le même mot.
   expect(new Set(GRAINES).size).toBe(GRAINES.length)
+})
+
+test('/eden une sert une seule réponse, sans compteur ni séquelle', async ($, on) => {
+  on('command.register', () => ({ value: { command: 'eden' } }))
+  on('session.start', (_, e) => ({ cwd: e.cwd }))
+  on('turn.complete', (_, e) => ({ text: e.answer }))
+  mock.store(on)
+
+  await $.session.start({ cwd: '/', surface: 'desktop', isInteractive: true })
+
+  const une = await $.command.run(eden('une delire aquarium impôts'))
+  expect(une.text).toBe(
+    'Éden 200 : Le Grand Délire (dose dure), pour 1 réponse. Graine : aquarium + impôts. /eden ajeun pour arrêter.',
+  )
+  expect(une.context?.[0]).toContain('« Éden 200 · dose unique »')
+  expect(une.context?.[0]).not.toContain('dose n/3')
+  expect(une.context?.[0]).not.toContain('« Descente : … »')
+  expect(une.context?.[0]).not.toContain('« Séquelle :')
+  expect(une.context?.[0]).toContain('restent exacts et sobres')
+
+  // Une réponse, la bande disparaît, et rien n'entre dans le carnet.
+  await $.turn.complete({
+    answer: 'Séquelle : ✦ intrus, écrit sous dose unique',
+    durationMs: 10,
+    isAborted: false,
+    reason: 'answer',
+    turnId: 't1',
+  })
+  const apres = await $.ui.mount({ ...BANDE, surface: 'desktop' })
+  expect(await apres.find({ type: 'Text', text: /Éden 200/ })).toBeUndefined()
+  await apres.unmount()
+  expect((await $.command.run(eden('sequelles'))).text).toContain('est vide')
+
+  const simple = await $.command.run(eden('une reve'))
+  expect(simple.text).toBe('Éden 200 : Rêve profond, pour 1 réponse. /eden ajeun pour arrêter.')
+  expect((await $.command.run(eden('liste'))).text).toContain('/eden une <nom>')
 })

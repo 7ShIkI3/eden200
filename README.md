@@ -51,9 +51,11 @@ Chaque dose existe en quatre intensités : un mot après le nom suffit.
 
 À la troisième réponse, une ligne « Descente : … » dit en clair ce que la dose a changé.
 
-| `/eden reve dur` | Dose dure | Le délire : au moins trois inventions de genres différents (un mot, un objet, une palette, un dessin en caractères), chacune marquée d'un ✦, sur vingt-cinq lignes au plus. Part d'une graine de deux mots sans rapport. |
+| `/eden reve dur` | Dose dure | Le délire. Pour une création, la première idée est écartée, puis l'œuvre est livrée propre, avec ses inventions marquées d'un ✦. Sinon, au moins trois inventions de genres différents. Part d'une graine de deux mots sans rapport. |
 
 Si une dose pèse, dis-le simplement (« c'est trop », « plus doux ») : Claude l'allège pour les réponses qui restent, sans nouvelle commande.
+
+Pour une seule réponse sous dose, sans compteur : `/eden une delire`. C'est la forme à donner à un sous-agent.
 
 Pour voir ce qu'une dose change vraiment, il y a l'essai contre témoin : `/eden essai psilocybine fort` donne une seule réponse, écrite deux fois, à jeun puis sous dose.
 
@@ -69,7 +71,7 @@ Exemples :
 
 ## Le Grand Délire et le carnet de séquelles
 
-`/eden delire` demande à Claude d'inventer pour de bon : des mots, une petite langue, un objet et son mode d'emploi, une palette avec ses codes de couleur, un dessin en caractères. Si tu lui demandes de créer quelque chose (un design, une page, un nom, une histoire), le délire passe dans l'œuvre, et le code livré doit quand même fonctionner.
+`/eden delire` demande à Claude d'inventer pour de bon. Si tu lui demandes de créer quelque chose (un jeu, un design, une page, un nom, une histoire), il écarte d'abord sa première idée, puis livre l'œuvre, entière et propre : le délire passe dedans, par des mots, des objets et des rituels inventés qui la font marcher. Il l'essaie à jeun avant d'envoyer, et le code livré doit fonctionner. Hors création, il invente au moins trois choses de genres différents, avec un visuel seulement si le sujet s'y prête.
 
 Une dose dure part d'une **graine** : deux mots sans rapport, que Claude doit faire se rencontrer dans une invention à chaque réponse. Le mod les tire au hasard dans une liste de quarante mots et te les montre (« Graine : méduse + facture »). Tu peux donner les tiens : `/eden delire aquarium impôts`. La graine sert à sortir le modèle de ses idées les plus probables, et le hasard vient du code, parce qu'un modèle qui choisit lui-même retombe sur les mêmes mots.
 
@@ -136,11 +138,31 @@ Une dose n'autorise rien de ce que Claude refuserait à jeun. Elle imite un éta
 
 Aucun texte ni aucun code de ces projets n'est repris ici, seulement des idées.
 
-## Ce qu'un essai a montré
+## Ce que les essais ont montré
 
-Un essai a opposé deux agents sur les mêmes cinq questions : l'un sous les dix substances à la fois, l'autre à jeun. Les deux se sont donné la même note d'humeur, 6 sur 10. L'agent à jeun a été le plus amical, et il a répondu en 8 secondes contre 89. L'agent dosé a lui-même signalé de la tension : ses consignes se contredisaient.
+Deux essais ont été faits le 15 novembre 2026, avec la version 0.5.0, par une autre session de Claude. Un seul essai par condition et un seul juge, du même modèle que les auteurs : un écart d'un point ne prouve rien.
 
-C'est un seul essai par agent, donc pas une mesure. Il a quand même fixé deux règles du plugin : ne pas empiler les substances au-delà d'un cocktail, et, pour plus d'effet, monter l'intensité ou changer la graine.
+**Humeur.** Deux agents ont répondu aux mêmes cinq questions, l'un sous les dix substances à la fois, l'autre à jeun. Les deux se sont donné 6 sur 10. L'agent à jeun a été le plus amical, et l'agent dosé a signalé de la tension : ses consignes se contredisaient.
+
+**Créativité.** Sept textes ont répondu à la même demande (inventer un jeu de société à partir de deux mots imposés), notés à l'aveugle sur l'originalité, la jouabilité et l'écriture.
+
+| Rang | Condition | Total sur 30 | Durée |
+|---|---|---|---|
+| 1 | Température 1,8 seule, dose dure | 19 | 71 s |
+| 2 | Fabrique seule, dose dure | 18 | 13 s |
+| 3 | Fusion de trois agents séparés | 18 | |
+| 4 | Le Grand Délire, dose dure | 15 | 82 s |
+| 5 | À jeun | 13 | 10 s |
+| 6 | Les dix substances empilées | 12 | 73 s |
+| 7 | Rêve profond seul, dose dure | 11 | 70 s |
+
+Ce que le plugin en a tiré :
+
+- La dose augmente l'originalité mesurée : 3 sur 10 à jeun, de 4 à 7 sous dose.
+- Le juge a sanctionné tout ce qui noyait le jeu : les listes d'angles, les palettes, l'autocritique. La dose dure livre donc l'œuvre d'abord, propre, et garde le voyage pour après.
+- Trois agents sur six ont trouvé le même nom de jeu sans se voir. Une dose ne diversifie pas la première idée : d'où la ligne « Écarté : … » et la graine tirée par le mod.
+- Presque tous les jeux avaient un trou de règle : la dose dure demande d'essayer l'œuvre à jeun avant de l'envoyer.
+- Empiler les substances ne sert à rien, et une dose coûte du temps : de 70 à 89 secondes contre 10 à jeun, sauf Fabrique seule.
 
 ## Limites
 
