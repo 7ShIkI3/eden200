@@ -167,9 +167,16 @@ Ce qui tient : Fabrique seule et Le Grand Délire battent l'agent à jeun quatre
 
 Ce qui ne tient pas : Température 1,8 seule, en tête au premier test, a fini ensuite deuxième, sixième et quatrième. Rêve profond seul a fini dernier deux fois, puis a obtenu 16 et 18. Les noms de jeu convergent avec ou sans dose, et l'effet de la graine sur ce point n'a pas été mesuré.
 
-**La règle de la dose dure.** Une première réécriture, en 0.8.0, a noté plus bas que la règle d'origine dans deux essais (13 contre 19, puis 15 contre 17) et a été annulée. La règle actuelle a été testée avant d'être publiée : même cocktail, trois paires de mots, deux textes par condition, un juge par paire. Elle a obtenu 20,83 sur 30 en moyenne, contre 14,67 pour la règle d'origine, et ses deux textes ont fini premier et deuxième dans les trois paires. Dans ces textes, la ligne « En clair » manquait : une incise a été ajoutée ensuite pour la faire revenir, et cette incise n'a pas été mesurée.
+**La règle de la dose dure.** Une première réécriture, en 0.8.0, a noté plus bas que la règle d'origine dans deux essais (13 contre 19, puis 15 contre 17) et a été annulée. La règle actuelle a été testée avant d'être publiée, contre la règle d'origine, avec le même cocktail et un juge par paire de mots.
 
-**Limites.** Peu de tirages par condition, un juge différent par test et du même modèle que les auteurs, un seul type de tâche, aucune partie jouée pour de vrai. Dans le dernier essai, les deux styles se reconnaissaient à l'œil, donc le juge n'était pas tout à fait aveugle. Un écart d'un à trois points entre deux conditions voisines ne prouve rien.
+| Tâche | Règle actuelle | Règle d'origine |
+|---|---|---|
+| Jeu de société, trois paires de mots, six textes par règle | 20,83 sur 30 | 14,67 sur 30 |
+| Histoire, marque, page d'accueil, six textes par règle | 22,5 sur 30 | 13,67 sur 30 |
+
+Dans les six paires, les deux textes de la règle actuelle ont fini premier et deuxième. Ils sont aussi plus courts, sans palette ni liste d'angles. Les juges y relèvent encore des restes de voyage, et les noms trouvés convergent toujours d'un texte à l'autre.
+
+**Limites.** Peu de tirages par condition, un juge différent par test et du même modèle que les auteurs, aucun lecteur humain, aucune partie jouée pour de vrai. Dans les deux derniers essais, les deux styles se reconnaissaient à l'œil : le juge n'était pas tout à fait aveugle, et une part de l'écart vient de la forme. Un écart d'un à trois points entre deux conditions voisines ne prouve rien.
 
 </details>
 
