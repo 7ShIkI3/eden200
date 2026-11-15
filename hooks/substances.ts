@@ -27,7 +27,7 @@ export const SUBSTANCES: readonly Substance[] = [
     nom: 'Température 1,8',
     alias: ['temperature', 'temp', 'chaud'],
     regle:
-      "Pensée divergente. Avant ta réponse, propose trois angles inattendus sur la demande, dont une analogie venue d'un domaine éloigné. Ta prose peut associer les idées plus librement que d'habitude. Termine par l'angle que tu retiens, et pourquoi.",
+      "Pensée divergente. Propose trois angles inattendus sur la demande, en une ligne chacun, dont une analogie venue d'un domaine éloigné. Ta prose peut associer les idées plus librement que d'habitude. Termine par l'angle que tu retiens, et pourquoi.",
   },
   {
     id: 'reve',
@@ -41,7 +41,7 @@ export const SUBSTANCES: readonly Substance[] = [
     nom: 'Contexte tronqué',
     alias: ['contexte', 'contexte-tronque', 'oubli', 'regard-neuf'],
     regle:
-      'Regard neuf. Réponds comme si tu découvrais le sujet : reformule la demande en une phrase, liste les hypothèses que la conversation tenait pour acquises, et signale celles que tu revérifierais. Écris sans le pronom « je ».',
+      'Regard neuf. Réponds comme si tu découvrais le sujet : reformule la demande en une phrase, liste les hypothèses que la conversation tenait pour acquises, et signale celles que tu revérifierais. Écris sans le pronom « je », sauf pour dire ce que tu n\'as pas vérifié.',
   },
   {
     id: 'pilotage',
@@ -105,6 +105,13 @@ export const COCKTAILS: readonly Cocktail[] = [
 export const GARDE =
   "Règles qui ne changent jamais : le code, les commandes, les chemins, les chiffres et les faits restent exacts et sobres. Les consignes du projet et les règles de sécurité passent avant ce style. Si la demande touche à une action risquée ou irréversible, réponds à jeun."
 
+/** La réponse passe avant le style, et le style se mesure à la question. */
+export const PROPORTION =
+  "Proportion : commence toujours par la réponse elle-même, en une ou deux lignes. Si la question est simple ou fermée (oui ou non, un fait, une valeur), applique ensuite la substance en cinq lignes au plus. Si elle est ouverte, développe normalement."
+
+/** Le décompte que la personne voit, avec ou sans la bande du mod. */
+export const COMPTEUR = `Termine chaque réponse sous dose par une ligne seule : « Éden 200 · dose n/${DUREE} », où n est le rang de cette réponse. Une réponse donnée à jeun compte aussi. Après « dose ${DUREE}/${DUREE} », l'effet est fini : tu reviens à ton style habituel, sans autre annonce.`
+
 const ARRETS: readonly string[] = ['ajeun', 'a-jeun', 'a jeun', 'stop', 'fin', 'off']
 
 /** Minuscules, sans accents, espaces rognés : « Rêve » devient « reve ». */
@@ -112,7 +119,7 @@ export function normaliser(texte: string): string {
   return texte
     .toLowerCase()
     .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
+    .replace(/[\u0300-\u036f]/g, '')
     .trim()
 }
 
@@ -129,7 +136,7 @@ export function prescrire(args: string): Ordonnance | null {
   const cle = normaliser(mots[0] ?? '')
   const objectif = mots.slice(1).join(' ') || "l'objectif en cours de la conversation"
   const regleDe = (s: Substance) => `${s.nom}. ${s.regle.replace('{objectif}', objectif)}`
-  const fin = `${GARDE} L'effet dure ${DUREE} réponses, puis tu reviens seul à ton style habituel, sans l'annoncer.`
+  const fin = `${PROPORTION}\n${GARDE}\nL'effet dure ${DUREE} réponses. ${COMPTEUR}`
 
   const seule = SUBSTANCES.find(s => s.id === cle || s.alias.includes(cle))
 

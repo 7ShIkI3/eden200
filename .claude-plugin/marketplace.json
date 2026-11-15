@@ -1,5 +1,8 @@
 {
   "name": "eden200",
   "owner": { "name": "7ShIkI3" },
+  "metadata": {
+    "description": "Éden 200 pour Claude Code : des doses de style pour trois réponses, sous forme de mod, de skills et de modes."
+  },
   "plugins": [{ "name": "eden200", "source": "./" }]
 }

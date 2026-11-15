@@ -54,11 +54,12 @@ Le mod utilise deux mécanismes de Claude Code :
 
 ## Ce qui ne change jamais
 
-Sous n'importe quelle substance, le code, les commandes, les chemins, les chiffres et les faits restent exacts. Les consignes du projet et les règles de sécurité passent avant le style. Pour une action risquée, Claude répond à jeun.
+Sous n'importe quelle substance, la réponse vient d'abord, en une ou deux lignes, et une question simple ne reçoit que cinq lignes de style. Le code, les commandes, les chemins, les chiffres et les faits restent exacts. Les consignes du projet et les règles de sécurité passent avant le style. Pour une action risquée, Claude répond à jeun.
 
 ## Limites
 
-- Le décompte de la bande et celui de Claude peuvent se décaler d'une réponse : Claude suit sa consigne (« trois réponses »), la bande compte les tours terminés.
+- Chaque réponse sous dose se termine par « Éden 200 · dose n/3 ». Ce compteur est celui de Claude ; la bande du mod compte les tours terminés. S'ils se décalent d'une réponse, le compteur écrit dans la réponse fait foi.
+- Servie par le skill `dose`, une dose n'affiche pas la bande : seul le compteur en fin de réponse la signale.
 - Ce plugin ne lance aucun processus, ne fait aucun appel réseau et ne demande aucun secret.
 
 ## Essayer sans installer

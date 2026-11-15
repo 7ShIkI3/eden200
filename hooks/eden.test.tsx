@@ -34,6 +34,11 @@ test('une dose est servie, comptée dans la bande, puis arrêtée', async ($, on
   expect(servie.text).toBe('Éden 200 : Psilocybine de synthèse, pour 3 réponses. /eden ajeun pour arrêter.')
   expect(servie.context?.[0]).toContain('Température 1,8')
   expect(servie.context?.[0]).toContain('restent exacts et sobres')
+  // La réponse passe avant le style, et le décompte s'écrit dans la réponse.
+  expect(servie.context?.[0]).toContain('commence toujours par la réponse elle-même')
+  expect(servie.context?.[0]).toContain('en cinq lignes au plus')
+  expect(servie.context?.[0]).toContain('« Éden 200 · dose n/3 »')
+  expect(servie.context?.[0]).toContain('sauf pour dire ce que tu n\'as pas vérifié')
 
   const ui = await $.ui.mount({ ...BANDE, surface: 'desktop' })
   const ligne = await ui.find({ type: 'Text', text: /Éden 200/ })

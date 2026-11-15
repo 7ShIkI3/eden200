@@ -39,3 +39,5 @@ Tâche : $ARGUMENTS
 ## Quand ne rien prescrire
 
 Pour une action risquée ou irréversible (suppression, push, envoi, achat), ou pour un calcul qui doit être exact, la bonne ordonnance est « à jeun ».
+
+Pour une question simple ou fermée (oui ou non, un fait, une valeur), ne prescris pas de cocktail : rien, ou Argmax.
