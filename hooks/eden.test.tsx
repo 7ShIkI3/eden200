@@ -37,6 +37,7 @@ test('une dose est servie, comptée dans la bande, puis arrêtée', async ($, on
   // La réponse passe avant le style, et le décompte s'écrit dans la réponse.
   expect(servie.context?.[0]).toContain('commence toujours par la réponse elle-même')
   expect(servie.context?.[0]).toContain('en cinq lignes au plus')
+  expect(servie.context?.[0]).toContain('relis à jeun chaque fait')
   expect(servie.context?.[0]).toContain('« Éden 200 · dose n/3 »')
   expect(servie.context?.[0]).toContain('sauf pour dire ce que tu n\'as pas vérifié')
 

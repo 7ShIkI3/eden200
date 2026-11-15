@@ -54,7 +54,7 @@ Le mod utilise deux mécanismes de Claude Code :
 
 ## Ce qui ne change jamais
 
-Sous n'importe quelle substance, la réponse vient d'abord, en une ou deux lignes, et une question simple ne reçoit que cinq lignes de style. Le code, les commandes, les chemins, les chiffres et les faits restent exacts. Les consignes du projet et les règles de sécurité passent avant le style. Pour une action risquée, Claude répond à jeun.
+Sous n'importe quelle substance, la réponse vient d'abord, en une ou deux lignes, et une question simple ne reçoit que cinq lignes de style. Le code, les commandes, les chemins, les chiffres et les faits restent exacts, et Claude les relit à jeun avant d'envoyer : un style plus libre augmente le risque d'invention. Les consignes du projet et les règles de sécurité passent avant le style. Pour une action risquée, Claude répond à jeun.
 
 ## Limites
 
