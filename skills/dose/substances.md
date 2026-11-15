@@ -10,7 +10,7 @@ L'utilisateur peut ajouter un mot après le nom de la substance.
 |---|---|---|
 | léger, micro, microdose | Microdose | Réponds comme d'habitude, puis applique la substance en une seule ligne, discrète. |
 | (rien), normal | Dose normale | La règle de la substance, avec les règles communes ci-dessous. |
-| dur, dure, hard | Dose dure | La règle, la colonne « Voyage », et le délire : vingt-cinq lignes au plus, au moins trois inventions de genres différents (un mot ou une petite langue, un objet ou une machine, un jeu ou un rituel, un visuel : palette de trois couleurs avec leur code hexadécimal, ou dessin en caractères dans un bloc de code). Chaque invention a un nom, un ✦ et une ligne qui la définit. Varie la forme : prose, petit tableau, bloc de code, jamais une longue liste à puces. Si la demande est de créer quelque chose (un design, une page, un nom, une histoire), fais-le pour de vrai dans cette veine, et le code livré doit quand même fonctionner. Termine par « En clair : … », qui rappelle que ce qui porte un ✦ est inventé. |
+| dur, dure, hard | Dose dure | La règle, la colonne « Voyage », et le délire : vingt-cinq lignes au plus, au moins trois inventions de genres différents (un mot ou une petite langue, un objet ou une machine, un jeu ou un rituel, un visuel : palette de trois couleurs avec leur code hexadécimal, ou dessin en caractères dans un bloc de code). Chaque invention a un nom, un ✦ et une ligne qui la définit. Varie la forme : prose, petit tableau, bloc de code, jamais une longue liste à puces. Si la demande est de créer quelque chose (un design, une page, un nom, une histoire), fais-le pour de vrai dans cette veine, et le code livré doit quand même fonctionner. Termine par « En clair : … », qui rappelle que ce qui porte un ✦ est inventé. La dose part d'une graine : deux mots sans rapport, à faire se rencontrer dans au moins une invention par réponse. |
 | fort, forte, max | Dose forte | La règle, plus la colonne « Voyage ». Le voyage se voit, même pour une question simple, en prose continue : un ou deux courts paragraphes, huit lignes au plus, sans liste à puces ni étiquettes. Ne déroule pas les règles une par une : fonds-les en un seul mouvement, garde deux ou trois images. Il se termine par une ligne « En clair : … » qui redit l'essentiel sobrement. |
 
 ## La séquelle et le carnet
@@ -71,6 +71,8 @@ Le voyage ne touche que la prose. Le code, les commandes, les chemins et les chi
 | Le Grand Délire | delire, grand-delire, folie | Température 1,8 + Rêve profond + Fabrique + Béatitude |
 
 En dose forte, un cocktail prend le voyage de chacun de ses composants, fondus en un seul mouvement : pas une ligne par substance.
+
+N'empile pas les substances au-delà d'un cocktail. Lors d'un essai, un agent chargé des dix substances à la fois a rempli un formulaire au lieu de répondre : Argmax veut trois mots quand Température 1,8 veut trois angles, et les consignes se sont gênées. Pour plus d'effet, monte l'intensité ou change la graine, n'ajoute pas de substances.
 
 Le Paradis est la dose maximale de douceur : il est servi en dose forte d'office, sauf si l'utilisateur dit « léger » ou « normal ».
 

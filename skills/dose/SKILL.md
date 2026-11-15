@@ -1,6 +1,6 @@
 ---
 name: dose
-description: Sert à Claude une « substance » d'Éden 200 qui change son style pendant trois réponses (pensée divergente, regard neuf, idée fixe, sobriété maximale…). À utiliser quand l'utilisateur dit « sers-moi une dose », « passe en température 1,8 », « mode psilocybine », « réponds en argmax », ou nomme une substance ou un cocktail d'Éden 200.
+description: Sert à Claude une « substance » d'Éden 200 qui change son style pendant trois réponses (pensée divergente, regard neuf, idée fixe, sobriété maximale…). À utiliser quand l'utilisateur dit « sers-moi une dose », « passe en température 1,8 », « mode psilocybine », « réponds en argmax », « délire », « drogue dure », « invente-moi des trucs », ou nomme une substance ou un cocktail d'Éden 200.
 argument-hint: "[essai] [substance ou cocktail] [léger | fort | dur] [objectif]"
 ---
 
@@ -13,7 +13,7 @@ Substance demandée : $ARGUMENTS
 ## Marche à suivre
 
 1. Lis `substances.md`, dans ce dossier, et trouve la substance ou le cocktail demandé. Un nom approché suffit (« psilo », « regard neuf », « sobre »).
-2. Si rien n'est demandé, ou si le nom ne correspond à rien, affiche la carte en huit lignes et demande laquelle servir. Ne choisis pas à la place de l'utilisateur.
+2. Si rien n'est demandé, ou si le nom ne correspond à rien, affiche la carte (une ligne par substance et par cocktail de `substances.md`) et demande laquelle servir. Ne choisis pas à la place de l'utilisateur.
 3. Repère l'intensité : « léger » donne une microdose, « fort » une dose forte, « dur » une dose dure, rien une dose normale. Le tableau des intensités est dans `substances.md`.
 4. Annonce la dose en une ligne : son nom, son intensité si elle n'est pas normale, puis « pour trois réponses ». Cette annonce ne compte pas dans les trois.
 5. Applique la règle de la substance à tes trois prochaines réponses, avec les règles communes de `substances.md`. Pour un cocktail, applique ensemble les règles de ses composants. En dose forte, ajoute la colonne « Voyage ».
@@ -22,6 +22,8 @@ Substance demandée : $ARGUMENTS
 8. Sur la réponse 3/3, ajoute juste avant le compteur une ligne « Descente : … » qui dit en une phrase ce que la dose a changé. Ensuite, reviens à ton style habituel sans autre annonce.
 
 En dose dure (« dur », ou le cocktail « délire »), suis la ligne « Dose dure » du tableau des intensités à la place de l'étape 6 : au moins trois inventions marquées d'un ✦, vingt-cinq lignes au plus. Sur la réponse 3/3, ajoute la ligne « Séquelle : … » décrite dans `substances.md`. Ce skill ne garde rien d'une session à l'autre : seul le mod tient le carnet.
+
+Une dose dure part d'une graine : deux mots sans rapport, à faire se rencontrer dans une invention à chaque réponse. Prends les deux mots que l'utilisateur donne après la commande. S'il n'en donne pas, demande-lui deux mots au hasard, ou prends-en deux très éloignés dans son dernier message. Ne les choisis pas toi-même dans ta tête : tu retomberais sur tes idées habituelles.
 
 Si la demande commence par « essai », suis la section « L'essai contre témoin » de `substances.md` à la place des étapes 5 à 8 : une seule réponse, donnée deux fois, à jeun puis sous dose.
 

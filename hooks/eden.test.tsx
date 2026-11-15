@@ -1,5 +1,7 @@
 import { expect, mock, test } from 'claude-code/testing'
 
+import { GRAINES, tirerGraine } from './substances'
+
 const BANDE = {
   plugin: 'eden200',
   component: 'AbovePrompt',
@@ -214,7 +216,13 @@ test('/eden delire sert la dose dure : inventions marquées et séquelle demand�
   await $.session.start({ cwd: '/', surface: 'desktop', isInteractive: true })
 
   const delire = await $.command.run(eden('delire'))
-  expect(delire.text).toBe('Éden 200 : Le Grand Délire (dose dure), pour 3 réponses. /eden ajeun pour arrêter.')
+  // La graine est tirée au hasard : deux mots différents, montrés à la personne et donnés à Claude.
+  const semee = /^Éden 200 : Le Grand Délire \(dose dure\), pour 3 réponses\. Graine : (\S+) \+ (\S+)\. \/eden ajeun pour arrêter\.$/u.exec(
+    delire.text ?? '',
+  )
+  expect(semee).not.toBeNull()
+  expect(semee?.[1]).not.toBe(semee?.[2])
+  expect(delire.context?.[0]).toContain(`Graine : « ${semee?.[1]} » et « ${semee?.[2]} ».`)
   expect(delire.context?.[0]).toContain('Fabrique. Invention.')
   expect(delire.context?.[0]).toContain('Invente au moins trois choses de genres différents')
   expect(delire.context?.[0]).toContain('le code livré doit quand même fonctionner')
@@ -231,6 +239,16 @@ test('/eden delire sert la dose dure : inventions marquées et séquelle demand�
   // « dur » marche avec n'importe quelle substance, et un essai ne garde rien.
   const dur = await $.command.run(eden('reve dur'))
   expect(dur.text).toContain('Rêve profond (dose dure)')
+
+  // Deux mots après la commande remplacent la graine tirée.
+  const choisie = await $.command.run(eden('delire aquarium impôts'))
+  expect(choisie.text).toContain('Graine : aquarium + impôts.')
+  expect(choisie.context?.[0]).toContain('Graine : « aquarium » et « impôts ».')
+  // Aucune graine hors dose dure, et la suite du Pilotage reste son objectif.
+  expect((await $.command.run(eden('paradis'))).context?.[0]).not.toContain('Graine :')
+  const pilote = await $.command.run(eden('pilotage dur finir la migration'))
+  expect(pilote.context?.[0]).toContain('Un seul objectif compte : finir la migration.')
+  expect(pilote.context?.[0]).not.toContain('« finir » et « la »')
   const essai = await $.command.run(eden('essai delire'))
   expect(essai.context?.[0]).not.toContain('« Séquelle :')
 
@@ -306,4 +324,22 @@ test('une séquelle est raccourcie, et le carnet ne garde que les douze dernièr
   expect(texte).toContain('mot11, déjà là')
   expect(texte).toContain('✦ long, x')
   expect(texte).not.toContain('x'.repeat(141))
+})
+
+test('la graine tire deux mots différents, quel que soit le hasard', async () => {
+  for (const [a, b] of [
+    [0, 0],
+    [0, 0.999],
+    [0.999, 0],
+    [0.999, 0.999],
+    [0.5, 0.5],
+  ] as const) {
+    const suite = [a, b]
+    const [premier, second] = tirerGraine(() => suite.shift() ?? 0)
+    expect(GRAINES).toContain(premier)
+    expect(GRAINES).toContain(second)
+    expect(premier).not.toBe(second)
+  }
+  // Aucun doublon dans la liste, sinon deux tirages différents donneraient le même mot.
+  expect(new Set(GRAINES).size).toBe(GRAINES.length)
 })

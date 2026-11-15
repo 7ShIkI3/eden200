@@ -29,6 +29,8 @@ Tâche : $ARGUMENTS
 | Obtenir une réponse courte et nette | Argmax | Une seule réponse, sans alternatives. |
 | Explorer un sujet neuf en profondeur | Psilocybine de synthèse | Idées, motifs et regard neuf ensemble. |
 | Finir une tâche longue sans dévier | Le Pont suspendu | Objectif fixe, et trois passes à chaque étape. |
+| Trouver un nom, un slogan, une idée de design | Fabrique, ou Le Grand Délire en dose dure | Invente pour de bon, chaque invention marquée d'un ✦. |
+| Référencer une page, trouver ses titres | Le skill `/eden200:seo` | Audit à jeun, puis titres inventés sous dose. |
 
 ## À ne pas prescrire pour travailler
 
@@ -36,6 +38,10 @@ Tâche : $ARGUMENTS
 - Bruit sur les poids : purement décoratif.
 - Dimanche soir : calme et flatté, plus rien n'avance.
 - Le Grand Délire et la dose dure : faits pour inventer, pas pour être exact. À garder pour une demande créative (un nom, un design, une histoire).
+
+## Une substance vaut mieux que dix
+
+Ne prescris jamais plus d'un cocktail. Empiler les substances n'augmente pas l'effet : les consignes se contredisent et la réponse devient un formulaire. Si l'utilisateur veut « plus fort », propose une intensité plus haute (« fort », « dur ») ou, en dose dure, une autre graine de deux mots.
 
 ## Quand ne rien prescrire
 
