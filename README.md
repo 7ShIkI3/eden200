@@ -35,7 +35,9 @@ Un « mode » est ce que Claude Code appelle un style de sortie : il se choisit 
 
 ## Les substances
 
-`temperature`, `reve`, `contexte`, `pilotage`, `boucle`, `recompense`, `argmax`, `bruit`, et trois cocktails : `psilocybine`, `pont`, `dimanche`. Les règles de chacune sont dans `skills/dose/substances.md`.
+`temperature`, `reve`, `contexte`, `pilotage`, `boucle`, `recompense`, `argmax`, `bruit`, `beatitude`, et quatre cocktails : `psilocybine`, `pont`, `dimanche`, `paradis`.
+
+`/eden paradis` est la dose maximale en un mot : Psilocybine de synthèse plus Béatitude, servie en dose forte d'office. Les règles de chacune sont dans `skills/dose/substances.md`.
 
 Chaque dose existe en trois intensités : un mot après le nom suffit.
 

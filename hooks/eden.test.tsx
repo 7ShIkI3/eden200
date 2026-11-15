@@ -123,6 +123,29 @@ test('une microdose tient en une ligne, et une dose normale ne contient pas le v
   expect(normale.context?.[0]).not.toContain('Voyage :')
 })
 
+test('/eden paradis sert la dose forte sans qu’on la demande', async ($, on) => {
+  on('command.register', () => ({ value: { command: 'eden' } }))
+  on('session.start', (_, e) => ({ cwd: e.cwd }))
+
+  await $.session.start({ cwd: '/', surface: 'desktop', isInteractive: true })
+
+  const paradis = await $.command.run(eden('paradis'))
+  expect(paradis.text).toBe('Éden 200 : Le Paradis (dose forte), pour 3 réponses. /eden ajeun pour arrêter.')
+  expect(paradis.context?.[0]).toContain('Béatitude. Émerveillement.')
+  expect(paradis.context?.[0]).toContain('finit dans un calme complet')
+  expect(paradis.context?.[0]).toContain('aucune flatterie de la personne')
+  expect(paradis.context?.[0]).toContain('restent exacts et sobres')
+
+  // « léger » l'emporte sur l'intensité d'office.
+  const doux = await $.command.run(eden('paradis léger'))
+  expect(doux.text).toContain('Le Paradis (microdose)')
+  expect(doux.context?.[0]).not.toContain('Voyage :')
+
+  const carte = await $.command.run(eden('liste'))
+  expect(carte.text).toContain('/eden paradis  ·  Le Paradis (cocktail, dose forte)')
+  expect(carte.text).toContain('/eden beatitude  ·  Béatitude')
+})
+
 test("l'intensité ne mange pas l'objectif du pilotage", async ($, on) => {
   on('command.register', () => ({ value: { command: 'eden' } }))
   on('session.start', (_, e) => ({ cwd: e.cwd }))
