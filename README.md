@@ -30,16 +30,17 @@ Dans l'app de bureau, où `/plugin` ne tourne pas : clique sur + à côté de la
 | Skill | `/eden200:a-jeun` | Remet Claude à jeun. |
 | Mode | Éden Psilocybine | Style de sortie permanent : pensée divergente. |
 | Mode | Éden Argmax | Style de sortie permanent : sobriété maximale. |
+| Mode | Éden Délire | Style de sortie permanent : une invention par réponse, marquée d'un ✦. |
 
 Un « mode » est ce que Claude Code appelle un style de sortie : il se choisit dans les réglages et dure toute la session.
 
 ## Les substances
 
-`temperature`, `reve`, `contexte`, `pilotage`, `boucle`, `recompense`, `argmax`, `bruit`, `beatitude`, et quatre cocktails : `psilocybine`, `pont`, `dimanche`, `paradis`.
+`temperature`, `reve`, `contexte`, `pilotage`, `boucle`, `recompense`, `argmax`, `bruit`, `beatitude`, `invention`, et cinq cocktails : `psilocybine`, `pont`, `dimanche`, `paradis`, `delire`.
 
-`/eden paradis` est la dose maximale en un mot : Psilocybine de synthèse plus Béatitude, servie en dose forte d'office. Les règles de chacune sont dans `skills/dose/substances.md`.
+`/eden paradis` est la dose maximale de douceur : Psilocybine de synthèse plus Béatitude, servie en dose forte d'office. `/eden delire` est la drogue dure : Température, Rêve profond, Fabrique et Béatitude, servis en dose dure d'office. Les règles de chacune sont dans `skills/dose/substances.md`.
 
-Chaque dose existe en trois intensités : un mot après le nom suffit.
+Chaque dose existe en quatre intensités : un mot après le nom suffit.
 
 | Commande | Intensité | Effet |
 |---|---|---|
@@ -48,6 +49,8 @@ Chaque dose existe en trois intensités : un mot après le nom suffit.
 | `/eden reve fort` | Dose forte | Le « voyage » se voit en prose continue, huit lignes au plus et sans liste, puis une ligne « En clair : … » redit l'essentiel sobrement. |
 
 À la troisième réponse, une ligne « Descente : … » dit en clair ce que la dose a changé.
+
+| `/eden reve dur` | Dose dure | Le délire : au moins trois inventions de genres différents (un mot, un objet, une palette, un dessin en caractères), chacune marquée d'un ✦, sur vingt-cinq lignes au plus. |
 
 Si une dose pèse, dis-le simplement (« c'est trop », « plus doux ») : Claude l'allège pour les réponses qui restent, sans nouvelle commande.
 
@@ -58,8 +61,25 @@ Exemples :
 - `/eden psilocybine`
 - `/eden psilocybine fort`
 - `/eden essai reve`
+- `/eden delire`
+- `/eden sequelles`
 - `/eden pilotage finir la migration` (la suite de la commande devient l'objectif)
 - `/eden ajeun`
+
+## Le Grand Délire et le carnet de séquelles
+
+`/eden delire` demande à Claude d'inventer pour de bon : des mots, une petite langue, un objet et son mode d'emploi, une palette avec ses codes de couleur, un dessin en caractères. Si tu lui demandes de créer quelque chose (un design, une page, un nom, une histoire), le délire passe dans l'œuvre, et le code livré doit quand même fonctionner.
+
+Chaque invention porte un ✦. C'est la règle qui rend la dose dure sans danger pour le reste : rien de marqué ✦ n'est un fait, et rien d'inventé ne va dans un chiffre, une source, une commande ou un chemin de fichier.
+
+À sa troisième réponse, une dose dure laisse une **séquelle** : une ligne « Séquelle : ✦ nom, définition », la seule invention que Claude garde. Le mod la range dans un carnet.
+
+| Commande | Effet |
+|---|---|
+| `/eden sequelles` | Affiche le carnet. |
+| `/eden oublie` | Vide le carnet. |
+
+Le carnet est relu à Claude à chaque dose forte ou dure, dans cette session et dans les suivantes. C'est le seul effet qui dure. Il ne change pas le modèle : c'est un fichier du plugin sur ton poste (douze séquelles de 140 caractères au plus), relu comme une liste de mots inventés, pas comme des consignes. Hors dose forte ou dure, il n'est jamais envoyé à Claude.
 
 ## Comment ça marche
 
@@ -68,7 +88,8 @@ Un modèle se dérègle à quatre endroits : son contexte, ses poids, ses activa
 Le mod utilise deux mécanismes de Claude Code :
 
 - la commande `/eden` renvoie un texte visible, plus une consigne que seul Claude lit (le champ `context` du résultat d'une commande) ;
-- un hook sur la fin de chaque tour décompte les réponses, et un autre dessine la bande.
+- un hook sur la fin de chaque tour décompte les réponses, et un autre dessine la bande ;
+- le carnet de séquelles tient dans le stockage propre au plugin (`$.store`), que Claude Code conserve d'une session à l'autre.
 
 ## Ce qui ne change jamais
 
@@ -89,7 +110,9 @@ Aucun texte ni aucun code de ces projets n'est repris ici, seulement des idées.
 
 - Chaque réponse sous dose se termine par « Éden 200 · dose n/3 ». Ce compteur est celui de Claude ; la bande du mod compte les tours terminés. S'ils se décalent d'une réponse, le compteur écrit dans la réponse fait foi.
 - Servie par le skill `dose`, une dose n'affiche pas la bande : seul le compteur en fin de réponse la signale.
-- Ce plugin ne lance aucun processus, ne fait aucun appel réseau et ne demande aucun secret.
+- Le carnet n'existe qu'avec le mod. Servie par le skill `dose`, une dose dure ne garde rien.
+- La séquelle n'est lue que sur la dernière réponse d'une dose dure. Si Claude oublie la ligne « Séquelle : », rien n'est gardé.
+- Ce plugin ne lance aucun processus, ne fait aucun appel réseau et ne demande aucun secret. Il n'écrit qu'un fichier : son carnet, dans le dossier de configuration de Claude Code.
 
 ## Essayer sans installer
 
