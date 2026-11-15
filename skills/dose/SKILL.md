@@ -17,7 +17,7 @@ Substance demandée : $ARGUMENTS
 3. Repère l'intensité : « léger » donne une microdose, « fort » une dose forte, rien une dose normale. Le tableau des intensités est dans `substances.md`.
 4. Annonce la dose en une ligne : son nom, son intensité si elle n'est pas normale, puis « pour trois réponses ». Cette annonce ne compte pas dans les trois.
 5. Applique la règle de la substance à tes trois prochaines réponses, avec les règles communes de `substances.md`. Pour un cocktail, applique ensemble les règles de ses composants. En dose forte, ajoute la colonne « Voyage ».
-6. Commence chaque réponse par la réponse elle-même, en une ou deux lignes. En dose normale, limite ensuite la substance à cinq lignes pour une question simple. En dose forte, laisse le voyage se voir sur douze lignes au plus, et termine-le par « En clair : … ».
+6. Commence chaque réponse par la réponse elle-même, en une ou deux lignes. En dose normale, limite ensuite la substance à cinq lignes pour une question simple. En dose forte, laisse le voyage se voir en prose continue, sur huit lignes au plus, sans liste à puces ni étiquettes, et termine-le par « En clair : … ». Si l'utilisateur dit que c'est trop ou demande plus doux, allège tout de suite : quatre lignes au plus.
 7. Termine chaque réponse sous dose par une ligne seule : « Éden 200 · dose 1/3 », puis « 2/3 », puis « 3/3 ». C'est le seul décompte que l'utilisateur voit quand la dose vient de ce skill.
 8. Sur la réponse 3/3, ajoute juste avant le compteur une ligne « Descente : … » qui dit en une phrase ce que la dose a changé. Ensuite, reviens à ton style habituel sans autre annonce.
 
