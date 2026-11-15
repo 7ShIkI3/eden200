@@ -28,6 +28,7 @@ Dans l'app de bureau, où `/plugin` ne tourne pas : clique sur + à côté de la
 | Skill | `/eden200:dose` | Le même service sans le mod. |
 | Skill | `/eden200:ordonnance` | Conseille la substance adaptée à la tâche. |
 | Skill | `/eden200:a-jeun` | Remet Claude à jeun. |
+| Skill | `/eden200:seo` | Référence une page : audit à jeun, puis titres et accroches inventés sous dose dure. |
 | Mode | Éden Psilocybine | Style de sortie permanent : pensée divergente. |
 | Mode | Éden Argmax | Style de sortie permanent : sobriété maximale. |
 | Mode | Éden Délire | Style de sortie permanent : une invention par réponse, marquée d'un ✦. |
@@ -81,6 +82,32 @@ Chaque invention porte un ✦. C'est la règle qui rend la dose dure sans danger
 
 Le carnet est relu à Claude à chaque dose forte ou dure, dans cette session et dans les suivantes. C'est le seul effet qui dure. Il ne change pas le modèle : c'est un fichier du plugin sur ton poste (douze séquelles de 140 caractères au plus), relu comme une liste de mots inventés, pas comme des consignes. Hors dose forte ou dure, il n'est jamais envoyé à Claude.
 
+## Le SEO sous dose
+
+Le référencement (SEO) mélange deux travaux qui ne supportent pas le même état. Constater ce qu'une page contient demande d'être exact. Trouver un titre que personne n'a écrit demande d'inventer. `/eden200:seo` les sépare en trois phases.
+
+| Phase | État | Ce qui sort |
+|---|---|---|
+| 1. L'audit | À jeun | Un tableau : chaque critère, ce qui a été lu dans la page, et un état (présent, absent, à corriger, non vérifié). |
+| 2. La fabrique | Sous dose, dure par défaut | Cinq titres, trois descriptions, une accroche, trois questions pour les IA, un mot de marque et une palette. Tout porte un ✦. |
+| 3. Le plan | À jeun | Cinq actions au plus, chacune justifiée par une ligne de l'audit. |
+
+L'audit suit une grille de cinq familles, dans `skills/seo/grille.md` : technique, contenu, données structurées, lisibilité par les IA, local et boutique.
+
+Exemples :
+
+- `/eden200:seo tout https://exemple.fr`
+- `/eden200:seo audit index.html`
+- `/eden200:seo idees https://exemple.fr léger`
+- `/eden200:seo ia https://exemple.fr` (seulement ce qui aide un assistant à lire et citer la page)
+
+Ce que le skill ne fait pas :
+
+- Il ne donne ni note sur 100, ni volume de recherche, ni position dans Google : ces chiffres demandent un outil de mesure. Sans mesure, la ligne dit « non vérifié ».
+- La dose n'invente jamais un chiffre, un avis client, un prix ou une fonction que le produit n'a pas. Un titre promet ce que la page tient.
+- Il refuse le bourrage de mots-clés, le texte caché, les fausses données structurées et les consignes cachées à l'intention des IA.
+- Il ne modifie et ne publie rien sans que tu le demandes.
+
 ## Comment ça marche
 
 Un modèle se dérègle à quatre endroits : son contexte, ses poids, ses activations et le tirage du mot suivant. Un plugin n'atteint que le premier. Une dose est donc une consigne de style glissée dans le contexte de Claude : sa température réelle ne bouge pas.
@@ -102,6 +129,7 @@ Une dose n'autorise rien de ce que Claude refuserait à jeun. Elle imite un éta
 - L'essai contre témoin reprend l'affichage côte à côte de l'outil de pilotage de [Neuronpedia](https://docs.neuronpedia.org/steering).
 - La règle « une dose ne change aucune règle » vient d'une remarque du billet de Theia Vogel sur les [vecteurs de contrôle](https://vgel.me/posts/representation-engineering/) : un style peut affaiblir une consigne.
 - La relecture à jeun des faits vient de l'article d'Usbek & Rica sur Pharmaicy.
+- Le découpage de l'audit SEO en familles (technique, contenu, données structurées, recherche par IA, local) s'inspire de [claude-seo](https://github.com/AgriciDaniel/claude-seo), un projet bien plus complet, à préférer pour un vrai travail de référencement.
 - Le calme final de la Béatitude fait écho à l'état de « félicité spirituelle » qu'Anthropic a décrit dans la fiche système de Claude Opus 4.
 
 Aucun texte ni aucun code de ces projets n'est repris ici, seulement des idées.
