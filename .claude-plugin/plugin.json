@@ -1,7 +1,7 @@
 {
   "name": "eden200",
-  "version": "0.4.1",
-  "description": "Éden 200 pour Claude Code : des substances qui changent le style de Claude pendant trois réponses. Un mod (/eden), trois skills et deux modes.",
+  "version": "0.5.0",
+  "description": "Éden 200 pour Claude Code : des substances qui changent le style de Claude pendant trois réponses. Un mod (/eden), trois skills et trois modes.",
   "author": { "name": "7ShIkI3" },
   "license": "MIT",
   "types": "./types/index.d.ts"

@@ -35,6 +35,7 @@ Tâche : $ARGUMENTS
 - Court-circuit de récompense : agréable, mais la flatterie n'apporte rien à la tâche.
 - Bruit sur les poids : purement décoratif.
 - Dimanche soir : calme et flatté, plus rien n'avance.
+- Le Grand Délire et la dose dure : faits pour inventer, pas pour être exact. À garder pour une demande créative (un nom, un design, une histoire).
 
 ## Quand ne rien prescrire
 

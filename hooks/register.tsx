@@ -2,17 +2,35 @@ import { atom, read, update } from 'claude-code'
 import type { Register } from 'claude-code'
 
 import type { Dose } from '../types'
-import { carte, estArret, normaliser, prescrire } from './substances'
+import {
+  ajouterSequelle,
+  carnet,
+  carte,
+  estArret,
+  estCarnet,
+  estOubli,
+  extraireSequelle,
+  lireCarnet,
+  normaliser,
+  prescrire,
+} from './substances'
 
 // La dose en cours : quelle substance, et combien de réponses il lui reste.
 const dose = atom({ plugin: 'eden200', key: 'dose' } as const, null)
+
+// Le carnet de séquelles : le seul effet qui dure d'une session à l'autre.
+// C'est un fichier du plugin sur ce poste, pas une modification du modèle.
+const CARNET = 'sequelles'
+
+// Un carnet illisible ne doit jamais empêcher de servir une dose : il compte pour vide.
+const vide = () => undefined
 
 export const register: Register = on => {
   on('session.start', async ($, e, next) => {
     await $.command.register({
       name: 'eden',
       description: 'Éden 200 : sert une substance à Claude pour trois réponses',
-      argumentHint: '[essai] [substance] [léger | fort] | ajeun | liste',
+      argumentHint: '[essai] [substance] [léger | fort | dur] | sequelles | oublie | ajeun | liste',
     })
 
     return next(e)
@@ -36,7 +54,17 @@ export const register: Register = on => {
       }
     }
 
-    const ordonnance = prescrire(e.args)
+    if (estCarnet(demande)) {
+      return { text: carnet(lireCarnet(await $.store.get(CARNET).catch(vide))) }
+    }
+
+    if (estOubli(demande)) {
+      await $.store.delete(CARNET)
+
+      return { text: 'Éden 200 : carnet de séquelles vidé.' }
+    }
+
+    const ordonnance = prescrire(e.args, lireCarnet(await $.store.get(CARNET).catch(vide)))
 
     if (ordonnance === null) {
       return {
@@ -44,7 +72,12 @@ export const register: Register = on => {
       }
     }
 
-    const servie: Dose = { id: ordonnance.id, nom: ordonnance.nom, reste: ordonnance.duree }
+    const servie: Dose = {
+      id: ordonnance.id,
+      nom: ordonnance.nom,
+      reste: ordonnance.duree,
+      garde: ordonnance.garde,
+    }
     await update($, dose, () => servie)
     const pour = ordonnance.duree > 1 ? `${ordonnance.duree} réponses` : '1 réponse'
 
@@ -64,8 +97,20 @@ export const register: Register = on => {
       const reste = enCours.reste - 1
       await update($, dose, () => (reste > 0 ? { ...enCours, reste } : null))
 
+      // La séquelle ne se lit que sur la dernière réponse d'une dose dure :
+      // une ligne « Séquelle : » écrite ailleurs n'entre jamais dans le carnet.
+      const sequelle = reste <= 0 && enCours.garde === true ? extraireSequelle(e.answer) : null
+
+      if (sequelle !== null) {
+        await $.store.set(CARNET, ajouterSequelle(lireCarnet(await $.store.get(CARNET).catch(vide)), sequelle))
+      }
+
       if (reste <= 0) {
-        $.ui.toast('Éden 200 : descente terminée, à jeun.')
+        $.ui.toast(
+          sequelle === null
+            ? 'Éden 200 : descente terminée, à jeun.'
+            : 'Éden 200 : descente terminée. Une séquelle est gardée dans le carnet.',
+        )
       }
     }
 

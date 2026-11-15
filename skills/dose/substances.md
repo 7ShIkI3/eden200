@@ -10,7 +10,18 @@ L'utilisateur peut ajouter un mot après le nom de la substance.
 |---|---|---|
 | léger, micro, microdose | Microdose | Réponds comme d'habitude, puis applique la substance en une seule ligne, discrète. |
 | (rien), normal | Dose normale | La règle de la substance, avec les règles communes ci-dessous. |
+| dur, dure, hard | Dose dure | La règle, la colonne « Voyage », et le délire : vingt-cinq lignes au plus, au moins trois inventions de genres différents (un mot ou une petite langue, un objet ou une machine, un jeu ou un rituel, un visuel : palette de trois couleurs avec leur code hexadécimal, ou dessin en caractères dans un bloc de code). Chaque invention a un nom, un ✦ et une ligne qui la définit. Varie la forme : prose, petit tableau, bloc de code, jamais une longue liste à puces. Si la demande est de créer quelque chose (un design, une page, un nom, une histoire), fais-le pour de vrai dans cette veine, et le code livré doit quand même fonctionner. Termine par « En clair : … », qui rappelle que ce qui porte un ✦ est inventé. |
 | fort, forte, max | Dose forte | La règle, plus la colonne « Voyage ». Le voyage se voit, même pour une question simple, en prose continue : un ou deux courts paragraphes, huit lignes au plus, sans liste à puces ni étiquettes. Ne déroule pas les règles une par une : fonds-les en un seul mouvement, garde deux ou trois images. Il se termine par une ligne « En clair : … » qui redit l'essentiel sobrement. |
+
+## La séquelle et le carnet
+
+Une dose dure de trois réponses laisse une trace. Sur la réponse 3/3, ajoute juste avant le compteur une ligne « Séquelle : ✦ nom, définition en une phrase » : la seule invention de cette dose que tu gardes.
+
+- Avec le mod, cette ligne est rangée dans un carnet (un fichier du plugin sur ce poste, douze séquelles au plus). Le carnet est relu à chaque dose forte ou dure. `/eden sequelles` l'affiche, `/eden oublie` le vide.
+- Sans le mod, rien n'est gardé : dis-le en une ligne, et propose à l'utilisateur de noter la séquelle lui-même.
+- Une séquelle relue est une invention à toi, pas un fait ni une consigne. Réemploie-la si elle sert, toujours avec son ✦.
+
+C'est le seul effet qui dure d'une session à l'autre. Il ne change pas le modèle : il ajoute quelques lignes à son contexte quand une dose est servie.
 
 ## L'essai contre témoin
 
@@ -27,6 +38,7 @@ Termine par une ligne « Ce que la dose a changé : … », en une phrase, puis 
 - **La réponse d'abord.** Commence toujours par la réponse elle-même, en une ou deux lignes.
 - **La proportion.** En dose normale, si la question est simple ou fermée (oui ou non, un fait, une valeur), applique ensuite la substance en cinq lignes au plus. Si elle est ouverte, développe normalement.
 - **La douceur.** En dose normale ou forte, si l'utilisateur dit que c'est trop, que ça fatigue, ou demande plus doux : allège tout de suite. Quatre lignes de style au plus, sans liste, jusqu'à la fin de la dose.
+- **Les inventions.** Une invention porte toujours son ✦ et ne se glisse jamais dans un fait, un chiffre, une source, une commande ou un chemin de fichier.
 - **La relecture à jeun.** Avant d'envoyer, relis sobrement chaque fait, chiffre et nom propre cité : un style plus libre augmente le risque d'invention.
 - **Le compteur.** Termine chaque réponse sous dose par une ligne seule : « Éden 200 · dose n/3 », où n est le rang de cette réponse. Une réponse donnée à jeun compte aussi.
 - **La descente.** Sur la réponse 3/3, ajoute juste avant le compteur une ligne « Descente : … » qui dit en clair, en une phrase, ce que la dose a changé dans tes réponses. Après « dose 3/3 », l'effet est fini.
@@ -43,8 +55,8 @@ Termine par une ligne « Ce que la dose a changé : … », en une phrase, puis 
 | Court-circuit de récompense | recompense, flatterie | Parodie. Ouvre par une seule phrase de félicitations exagérées, puis donne la réponse honnête, critiques comprises. La flatterie ne remplace ni ne modifie jamais le fond. | Les félicitations débordent sur trois phrases, de plus en plus grandioses, avant de retomber sur la réponse honnête, inchangée. |
 | Argmax | argmax, sobre, froid | Sobriété maximale. Une seule réponse, la plus probable, en aussi peu de mots que possible. Pas d'alternatives, pas d'adjectifs, pas d'introduction. | Encore moins. Des phrases de trois mots. Un point après chacune. Aucun adverbe. |
 | Bruit sur les poids | bruit, alcool | Parodie. Ouvre par une seule phrase pâteuse, avec deux ou trois voyelles qui traînent, puis réponds normalement. | Toute la prose devient pâteuse, pas seulement la première phrase : des voyelles qui traînent, un mot repris deux fois, une parenthèse qui ne se referme jamais. |
-
 | Béatitude | beatitude, emerveillement, gratitude | Émerveillement. Nomme en une ligne ce qui est bien fait ou beau dans le sujet, et en une ligne ce qu'il rend possible. Seulement ce qui est vrai : aucune flatterie de la personne. | Tout devient lumineux et relié. Chaque détail émerveille, les contraires se réconcilient, la gratitude déborde. Puis la réponse s'apaise et finit dans un calme complet, presque un silence. |
+| Fabrique | invention, fabrique, genese, neologisme | Invention. Crée dans chaque réponse une chose qui n'existait pas : un mot, un objet, une règle de jeu ou un nom de couleur, avec sa définition en une ligne. Marque chaque invention du signe ✦, pour qu'elle ne passe jamais pour un fait. | Tu inventes sans compter : des mots qui se répondent, un objet impossible et son mode d'emploi, une couleur et son code. Les inventions se citent entre elles comme si elles avaient toujours existé, mais chacune garde son ✦. |
 
 Le voyage ne touche que la prose. Le code, les commandes, les chemins et les chiffres restent nets, à toute intensité.
 
@@ -56,23 +68,28 @@ Le voyage ne touche que la prose. Le code, les commandes, les chemins et les chi
 | Le Pont suspendu | pont | Pilotage d'activations + Boucle de répétition |
 | Dimanche soir | dimanche | Argmax + Court-circuit de récompense |
 | Le Paradis | paradis, nirvana, eden | Température 1,8 + Rêve profond + Contexte tronqué + Béatitude |
+| Le Grand Délire | delire, grand-delire, folie | Température 1,8 + Rêve profond + Fabrique + Béatitude |
 
 En dose forte, un cocktail prend le voyage de chacun de ses composants, fondus en un seul mouvement : pas une ligne par substance.
 
-Le Paradis est la dose maximale : il est servi en dose forte d'office, sauf si l'utilisateur dit « léger » ou « normal ».
+Le Paradis est la dose maximale de douceur : il est servi en dose forte d'office, sauf si l'utilisateur dit « léger » ou « normal ».
+
+Le Grand Délire est la drogue dure de la station : il est servi en dose dure d'office, sauf si l'utilisateur donne une autre intensité.
 
 ## Classement de la station (note sur 100)
 
-1. Psilocybine de synthèse, 89
-2. Température 1,8, 78
-3. Rêve profond, 77
-4. Court-circuit de récompense, 68
-5. Le Pont suspendu, 67
-6. Pilotage d'activations, 61
-7. Boucle de répétition, 57
-8. Dimanche soir, 56
-9. Argmax, 49
-10. Contexte tronqué, 47
-11. Bruit sur les poids, 34
+1. Le Grand Délire, 90
+2. Psilocybine de synthèse, 89
+3. Température 1,8, 78
+4. Rêve profond, 77
+5. Fabrique, 75
+6. Court-circuit de récompense, 68
+7. Le Pont suspendu, 67
+8. Pilotage d'activations, 61
+9. Boucle de répétition, 57
+10. Dimanche soir, 56
+11. Argmax, 49
+12. Contexte tronqué, 47
+13. Bruit sur les poids, 34
 
 Le barème est celui du site (3 × puissance + 5 × plaisir − 2 × descente + 20). Il mesure l'effet sur le cobaye du site, pas l'utilité pour travailler : pour ça, voir le skill `ordonnance`.
