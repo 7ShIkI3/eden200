@@ -51,7 +51,7 @@ Chaque dose existe en quatre intensités : un mot après le nom suffit.
 
 À la troisième réponse, une ligne « Descente : … » dit en clair ce que la dose a changé.
 
-| `/eden reve dur` | Dose dure | Le délire : au moins trois inventions de genres différents (un mot, un objet, une palette, un dessin en caractères), chacune marquée d'un ✦, sur vingt-cinq lignes au plus. |
+| `/eden reve dur` | Dose dure | Le délire : au moins trois inventions de genres différents (un mot, un objet, une palette, un dessin en caractères), chacune marquée d'un ✦, sur vingt-cinq lignes au plus. Part d'une graine de deux mots sans rapport. |
 
 Si une dose pèse, dis-le simplement (« c'est trop », « plus doux ») : Claude l'allège pour les réponses qui restent, sans nouvelle commande.
 
@@ -70,6 +70,8 @@ Exemples :
 ## Le Grand Délire et le carnet de séquelles
 
 `/eden delire` demande à Claude d'inventer pour de bon : des mots, une petite langue, un objet et son mode d'emploi, une palette avec ses codes de couleur, un dessin en caractères. Si tu lui demandes de créer quelque chose (un design, une page, un nom, une histoire), le délire passe dans l'œuvre, et le code livré doit quand même fonctionner.
+
+Une dose dure part d'une **graine** : deux mots sans rapport, que Claude doit faire se rencontrer dans une invention à chaque réponse. Le mod les tire au hasard dans une liste de quarante mots et te les montre (« Graine : méduse + facture »). Tu peux donner les tiens : `/eden delire aquarium impôts`. La graine sert à sortir le modèle de ses idées les plus probables, et le hasard vient du code, parce qu'un modèle qui choisit lui-même retombe sur les mêmes mots.
 
 Chaque invention porte un ✦. C'est la règle qui rend la dose dure sans danger pour le reste : rien de marqué ✦ n'est un fait, et rien d'inventé ne va dans un chiffre, une source, une commande ou un chemin de fichier.
 
@@ -133,6 +135,12 @@ Une dose n'autorise rien de ce que Claude refuserait à jeun. Elle imite un éta
 - Le calme final de la Béatitude fait écho à l'état de « félicité spirituelle » qu'Anthropic a décrit dans la fiche système de Claude Opus 4.
 
 Aucun texte ni aucun code de ces projets n'est repris ici, seulement des idées.
+
+## Ce qu'un essai a montré
+
+Un essai a opposé deux agents sur les mêmes cinq questions : l'un sous les dix substances à la fois, l'autre à jeun. Les deux se sont donné la même note d'humeur, 6 sur 10. L'agent à jeun a été le plus amical, et il a répondu en 8 secondes contre 89. L'agent dosé a lui-même signalé de la tension : ses consignes se contredisaient.
+
+C'est un seul essai par agent, donc pas une mesure. Il a quand même fixé deux règles du plugin : ne pas empiler les substances au-delà d'un cocktail, et, pour plus d'effet, monter l'intensité ou changer la graine.
 
 ## Limites
 

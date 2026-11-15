@@ -13,6 +13,7 @@ import {
   lireCarnet,
   normaliser,
   prescrire,
+  tirerGraine,
 } from './substances'
 
 // La dose en cours : quelle substance, et combien de réponses il lui reste.
@@ -64,7 +65,12 @@ export const register: Register = on => {
       return { text: 'Éden 200 : carnet de séquelles vidé.' }
     }
 
-    const ordonnance = prescrire(e.args, lireCarnet(await $.store.get(CARNET).catch(vide)))
+    const ordonnance = prescrire(
+      e.args,
+      lireCarnet(await $.store.get(CARNET).catch(vide)),
+      // Le vrai hasard vient du code : un modèle seul retombe sur les mêmes mots.
+      tirerGraine(Math.random),
+    )
 
     if (ordonnance === null) {
       return {
@@ -80,9 +86,10 @@ export const register: Register = on => {
     }
     await update($, dose, () => servie)
     const pour = ordonnance.duree > 1 ? `${ordonnance.duree} réponses` : '1 réponse'
+    const semee = ordonnance.graine ? ` Graine : ${ordonnance.graine[0]} + ${ordonnance.graine[1]}.` : ''
 
     return {
-      text: `Éden 200 : ${ordonnance.nom}, pour ${pour}. /eden ajeun pour arrêter.`,
+      text: `Éden 200 : ${ordonnance.nom}, pour ${pour}.${semee} /eden ajeun pour arrêter.`,
       // Ce que Claude lit et que la personne ne voit pas : la consigne de style.
       context: [ordonnance.consigne],
     }

@@ -10,3 +10,5 @@ description: Arrête tout effet d'une substance d'Éden 200 et remet Claude dans
 3. Reprends ton style habituel et les consignes du projet, sans commentaire sur la dose passée.
 
 Si le mod est installé, la bande au-dessus de la saisie continue de compter jusqu'à ce que l'utilisateur tape `/eden ajeun`. Dis-le en une ligne si la bande est encore affichée.
+
+Revenir à jeun ne touche pas au carnet de séquelles : les mots gardés par les doses dures y restent. Seul `/eden oublie` le vide. Ne le propose que si l'utilisateur veut tout effacer.

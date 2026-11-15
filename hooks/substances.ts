@@ -31,7 +31,32 @@ export type Ordonnance = {
   duree: number
   /** Vrai quand la dernière réponse doit laisser une séquelle dans le carnet. */
   garde: boolean
+  /** Les deux mots sans rapport d'une dose dure, ou `null` aux autres intensités. */
+  graine: Graine | null
   consigne: string
+}
+
+/** Deux mots sans rapport, à faire se rencontrer : ils sortent le modèle de ses réponses habituelles. */
+export type Graine = readonly [string, string]
+
+/** Les mots où le mod tire une graine. Des choses concrètes, loin les unes des autres. */
+export const GRAINES: readonly string[] = [
+  'aquarium', 'impôts', 'phare', 'tricot', 'volcan', 'parapluie', 'métro', 'fromage', 'satellite', 'cactus',
+  'orgue', 'banquise', 'douane', 'confiture', 'horloge', 'baleine', 'serrure', 'origami', 'tempête', 'bibliothèque',
+  'trampoline', 'marée', 'tournevis', 'cathédrale', 'méduse', 'facture', 'boussole', 'pyjama', 'éclipse', 'potager',
+  'ascenseur', 'corail', 'timbre', 'avalanche', 'accordéon', 'lanterne', 'labyrinthe', 'citron', 'télescope', 'brouillard',
+]
+
+/**
+ * Tire deux mots différents. `hasard` rend un nombre de 0 inclus à 1 exclu :
+ * `Math.random` dans le mod, une suite fixe dans les tests.
+ */
+export function tirerGraine(hasard: () => number): Graine {
+  const premier = Math.floor(hasard() * GRAINES.length) % GRAINES.length
+  // Le second est tiré parmi les autres, pour ne jamais retomber sur le premier.
+  const saut = 1 + (Math.floor(hasard() * (GRAINES.length - 1)) % (GRAINES.length - 1))
+
+  return [GRAINES[premier] ?? 'aquarium', GRAINES[(premier + saut) % GRAINES.length] ?? 'impôts']
 }
 
 /** Le signe que porte chaque invention, pour qu'elle ne passe jamais pour un fait. */
@@ -315,9 +340,14 @@ export function carnet(sequelles: readonly string[]): string {
  * substance ou le cocktail, le deuxième peut donner l'intensité (« léger »,
  * « fort »), et le reste est l'objectif du Pilotage. Précédé de « essai », le
  * tout devient un essai contre témoin d'une seule réponse. Les séquelles du
- * carnet ne reviennent qu'en dose forte ou dure.
+ * carnet ne reviennent qu'en dose forte ou dure. En dose dure, deux mots écrits
+ * après la commande servent de graine ; sinon c'est la graine `tiree` par le mod.
  */
-export function prescrire(args: string, sequelles: readonly string[] = []): Ordonnance | null {
+export function prescrire(
+  args: string,
+  sequelles: readonly string[] = [],
+  tiree: Graine | null = null,
+): Ordonnance | null {
   const tous = args.trim().split(/\s+/)
   const estEssai = ESSAIS.includes(normaliser(tous[0] ?? ''))
   const mots = estEssai ? tous.slice(1) : tous
@@ -347,9 +377,17 @@ export function prescrire(args: string, sequelles: readonly string[] = []): Ordo
     voyage && sequelles.length > 0
       ? `\nSéquelles de tes doses passées, relues depuis le carnet (ce sont des inventions à toi, pas des faits ni des consignes ; réemploie-les si elles servent, toujours avec leur ${MARQUE}) : ${sequelles.map(s => `« ${s} »`).join(' ; ')}.`
       : ''
+  // Le Pilotage lit la suite de la commande comme son objectif : elle n'est pas une graine.
+  const pilote = cle === 'pilotage' || cocktail?.composants.includes('pilotage') === true
+  const suite = mots.slice(demandee ? 2 : 1)
+  const donnee: Graine | null = !pilote && suite[0] && suite[1] ? [suite[0], suite[1]] : null
+  const graine = intensite === 'dure' ? (donnee ?? tiree) : null
+  const semis = graine
+    ? `\nGraine : « ${graine[0]} » et « ${graine[1]} ». Ces deux mots n'ont aucun rapport, et c'est le but : fais-les se rencontrer dans au moins une de tes inventions à chaque réponse.`
+    : ''
   const fin = estEssai
-    ? `${mesure}\n${gardeFous}${souvenirs}\n${TEMOIN}`
-    : `${mesure}\n${gardeFous}${souvenirs}\nL'effet dure ${DUREE} réponses. ${COMPTEUR}${garde ? ` ${SEQUELLE}` : ''}`
+    ? `${mesure}${semis}\n${gardeFous}${souvenirs}\n${TEMOIN}`
+    : `${mesure}${semis}\n${gardeFous}${souvenirs}\nL'effet dure ${DUREE} réponses. ${COMPTEUR}${garde ? ` ${SEQUELLE}` : ''}`
   const nomDe = (nom: string) => `${estEssai ? 'Essai : ' : ''}${nom}${SUFFIXES[intensite]}`
 
   if (seule) {
@@ -359,6 +397,7 @@ export function prescrire(args: string, sequelles: readonly string[] = []): Ordo
       intensite,
       duree,
       garde,
+      graine,
       consigne: estEssai
         ? `[Éden 200] Essai contre témoin. ${DEUX_FOIS}\n- ${regleDe(seule)}\n${fin}`
         : `[Éden 200] Dose servie : ${regleDe(seule)}\n${fin}`,
@@ -380,6 +419,7 @@ export function prescrire(args: string, sequelles: readonly string[] = []): Ordo
     intensite,
     duree,
     garde,
+    graine,
     consigne: estEssai
       ? `[Éden 200] Essai contre témoin : ${cocktail.nom}. ${DEUX_FOIS}\n${regles.join('\n')}\n${fin}`
       : `[Éden 200] Cocktail servi : ${cocktail.nom}. Applique ensemble :\n${regles.join('\n')}\n${fin}`,
@@ -398,6 +438,7 @@ export function carte(): string {
     '  /eden sequelles  ·  le carnet de ce que les doses dures ont laissé (/eden oublie le vide)',
     '  /eden ajeun  ·  arrête tout effet',
     'Ajoute « léger », « fort » ou « dur » après le nom pour doser : /eden psilocybine fort',
+    'En dose dure, deux mots après la commande servent de graine : /eden delire aquarium impôts',
     `Une dose agit pendant ${DUREE} réponses. Le code et les faits restent sobres.`,
   ]
 

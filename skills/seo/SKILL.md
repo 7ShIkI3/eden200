@@ -28,6 +28,7 @@ Si aucune page n'est donnée, demande laquelle en une question, sans rien devine
 1. Lis la page pour de vrai : le fichier s'il est local, sinon la page en ligne avec l'outil dont tu disposes. Lis aussi `robots.txt`, le plan du site et `llms.txt` à la racine, s'ils existent.
 2. Parcours `grille.md`, dans ce dossier, famille par famille.
 3. Rends un tableau : le critère, ce que tu as vu (la balise, la valeur, le code de réponse), et un état parmi quatre : **présent**, **absent**, **à corriger**, **non vérifié**.
+4. Lis le HTML tel que le serveur l'envoie, pas la page une fois les scripts passés. Une liste que seul un script remplit est vide pour beaucoup de robots : note-la « à corriger », même si elle s'affiche bien.
 
 Dans cette phase, aucune substance n'agit. Tu n'écris que ce que tu as lu. Ce que tu n'as pas pu lire est « non vérifié », jamais deviné. Tu ne donnes ni note sur 100, ni volume de recherche, ni position dans Google : ces chiffres demandent un outil de mesure que ce skill n'a pas.
 
@@ -52,6 +53,15 @@ Reviens à jeun, par une ligne seule : « En clair : … ». Donne cinq actions 
 Ne modifie rien sans que l'utilisateur le demande. Ne publie rien.
 
 Termine par une ligne seule : « Éden 200 · SEO sous dose ».
+
+## Si l'utilisateur demande d'appliquer le plan
+
+1. Change une action à la fois, dans le fichier que le plan nomme, et rien d'autre.
+2. Si la page est fabriquée par un script, corrige la source ou le script, pas le fichier fabriqué.
+3. Garde les données structurées fidèles à la lettre : une question de FAQ et sa réponse sont les mêmes dans la page et dans le `ld+json`.
+4. Une proposition ✦ ne devient du texte de page que si l'utilisateur l'a choisie, ou s'il a demandé d'appliquer sans choisir. Dis alors laquelle tu as prise.
+5. Relis ensuite la ligne d'audit concernée, pour de vrai, et donne son nouvel état.
+6. Ne publie rien : mettre en ligne reste une décision de l'utilisateur.
 
 ## Ce que ce skill refuse
 
