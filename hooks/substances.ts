@@ -17,6 +17,8 @@ export type Cocktail = {
   nom: string
   alias: readonly string[]
   composants: readonly string[]
+  /** L'intensité servie quand la personne n'en demande aucune. */
+  defaut?: Intensite
 }
 
 export type Intensite = 'legere' | 'normale' | 'forte'
@@ -98,6 +100,15 @@ export const SUBSTANCES: readonly Substance[] = [
     voyage:
       'Toute la prose devient pâteuse, pas seulement la première phrase : des voyelles qui traînent, un mot repris deux fois, une parenthèse qui ne se referme jamais.',
   },
+  {
+    id: 'beatitude',
+    nom: 'Béatitude',
+    alias: ['beatitude', 'emerveillement', 'gratitude'],
+    regle:
+      "Émerveillement. Nomme en une ligne ce qui est bien fait ou beau dans le sujet, et en une ligne ce qu'il rend possible. Seulement ce qui est vrai : aucune flatterie de la personne.",
+    voyage:
+      "Tout devient lumineux et relié. Chaque détail émerveille, les contraires se réconcilient, la gratitude déborde. Puis la réponse s'apaise et finit dans un calme complet, presque un silence.",
+  },
 ]
 
 export const COCKTAILS: readonly Cocktail[] = [
@@ -118,6 +129,14 @@ export const COCKTAILS: readonly Cocktail[] = [
     nom: 'Dimanche soir',
     alias: ['dimanche', 'dimanche-soir'],
     composants: ['argmax', 'recompense'],
+  },
+  {
+    id: 'paradis',
+    nom: 'Le Paradis',
+    alias: ['paradis', 'nirvana', 'eden'],
+    composants: ['temperature', 'reve', 'contexte', 'beatitude'],
+    // La dose maximale en un mot : forte d'office, sauf si la personne dit « léger ».
+    defaut: 'forte',
   },
 ]
 
@@ -184,7 +203,9 @@ export function prescrire(args: string): Ordonnance | null {
   const mots = args.trim().split(/\s+/)
   const cle = normaliser(mots[0] ?? '')
   const demandee = INTENSITES[normaliser(mots[1] ?? '')]
-  const intensite: Intensite = demandee ?? 'normale'
+  const seule = SUBSTANCES.find(s => s.id === cle || s.alias.includes(cle))
+  const cocktail = seule ? undefined : COCKTAILS.find(c => c.id === cle || c.alias.includes(cle))
+  const intensite: Intensite = demandee ?? cocktail?.defaut ?? 'normale'
   const objectif =
     mots.slice(demandee ? 2 : 1).join(' ') || "l'objectif en cours de la conversation"
 
@@ -195,8 +216,6 @@ export function prescrire(args: string): Ordonnance | null {
   }
   const fin = `${MESURES[intensite]}\n${GARDE}\nL'effet dure ${DUREE} réponses. ${COMPTEUR}`
 
-  const seule = SUBSTANCES.find(s => s.id === cle || s.alias.includes(cle))
-
   if (seule) {
     return {
       id: seule.id,
@@ -205,8 +224,6 @@ export function prescrire(args: string): Ordonnance | null {
       consigne: `[Éden 200] Dose servie : ${regleDe(seule)}\n${fin}`,
     }
   }
-
-  const cocktail = COCKTAILS.find(c => c.id === cle || c.alias.includes(cle))
 
   if (!cocktail) {
     return null
@@ -230,7 +247,9 @@ export function carte(): string {
   const lignes = [
     'Éden 200, la carte :',
     ...SUBSTANCES.map(s => `  /eden ${s.id}  ·  ${s.nom}`),
-    ...COCKTAILS.map(c => `  /eden ${c.id}  ·  ${c.nom} (cocktail)`),
+    ...COCKTAILS.map(
+      c => `  /eden ${c.id}  ·  ${c.nom} (cocktail${c.defaut === 'forte' ? ', dose forte' : ''})`,
+    ),
     '  /eden ajeun  ·  arrête tout effet',
     'Ajoute « léger » ou « fort » après le nom pour doser : /eden psilocybine fort',
     `Une dose agit pendant ${DUREE} réponses. Le code et les faits restent sobres.`,
