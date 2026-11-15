@@ -101,6 +101,10 @@ test('une dose forte ajoute le voyage et la ligne « En clair »', async ($, on)
   expect(forte.context?.[0]).toContain('« En clair : … »')
   expect(forte.context?.[0]).toContain('« Descente : … »')
   expect(forte.context?.[0]).toContain('restent exacts et sobres')
+  // Le voyage est une prose courte, pas une liste : onze puces étiquetées fatiguent.
+  expect(forte.context?.[0]).toContain('huit lignes au plus, sans liste à puces ni étiquettes')
+  expect(forte.context?.[0]).not.toContain('douze lignes')
+  expect(forte.context?.[0]).toContain('demande plus doux : allège tout de suite')
 
   const ui = await $.ui.mount({ ...BANDE, surface: 'desktop' })
   expect((await ui.find({ type: 'Text', text: /Éden 200/ }))?.text).toContain('(dose forte) · encore 3 réponses')
@@ -117,10 +121,12 @@ test('une microdose tient en une ligne, et une dose normale ne contient pas le v
   expect(micro.text).toContain('Rêve profond (microdose)')
   expect(micro.context?.[0]).toContain('en une seule ligne, discrète')
   expect(micro.context?.[0]).not.toContain('Voyage :')
+  expect(micro.context?.[0]).not.toContain('allège tout de suite')
 
   const normale = await $.command.run(eden('reve'))
   expect(normale.text).toContain('Rêve profond, pour 3 réponses')
   expect(normale.context?.[0]).not.toContain('Voyage :')
+  expect(normale.context?.[0]).toContain('allège tout de suite')
 })
 
 test('/eden paradis sert la dose forte sans qu’on la demande', async ($, on) => {

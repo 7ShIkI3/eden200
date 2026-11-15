@@ -161,8 +161,12 @@ export const MESURES: Readonly<Record<Intensite, string>> = {
     "Microdose : réponds comme d'habitude, puis applique la substance en une seule ligne, discrète. Rien d'autre ne change.",
   normale: PROPORTION,
   forte:
-    "Dose forte : commence par la réponse elle-même, en une ou deux lignes. Laisse ensuite le voyage se voir, sur douze lignes au plus, même pour une question simple. Termine le voyage par une ligne « En clair : … » qui redit l'essentiel sobrement.",
+    "Dose forte : commence par la réponse elle-même, en une ou deux lignes. Laisse ensuite le voyage se voir, même pour une question simple, en prose continue : un ou deux courts paragraphes, huit lignes au plus, sans liste à puces ni étiquettes. Ne déroule pas les règles une par une : fonds-les en un seul mouvement, garde deux ou trois images et laisse le reste de côté. Termine le voyage par une ligne « En clair : … » qui redit l'essentiel sobrement.",
 }
+
+/** La personne règle la dose en cours de route, sans retaper de commande. */
+export const DOUCEUR =
+  "Si la personne dit que c'est trop, que ça fatigue, ou demande plus doux : allège tout de suite. Quatre lignes de style au plus, sans liste, jusqu'à la fin de la dose."
 
 /** Ce que la carte et la bande ajoutent au nom, selon l'intensité. */
 export const SUFFIXES: Readonly<Record<Intensite, string>> = {
@@ -234,9 +238,11 @@ export function prescrire(args: string): Ordonnance | null {
     return intensite === 'forte' ? `${s.nom}. ${regle} Voyage : ${s.voyage}` : `${s.nom}. ${regle}`
   }
   const duree = estEssai ? 1 : DUREE
+  // Une microdose tient déjà en une ligne : il n'y a rien à alléger.
+  const mesure = intensite === 'legere' ? MESURES.legere : `${MESURES[intensite]}\n${DOUCEUR}`
   const fin = estEssai
-    ? `${MESURES[intensite]}\n${GARDE}\n${TEMOIN}`
-    : `${MESURES[intensite]}\n${GARDE}\nL'effet dure ${DUREE} réponses. ${COMPTEUR}`
+    ? `${mesure}\n${GARDE}\n${TEMOIN}`
+    : `${mesure}\n${GARDE}\nL'effet dure ${DUREE} réponses. ${COMPTEUR}`
   const nomDe = (nom: string) => `${estEssai ? 'Essai : ' : ''}${nom}${SUFFIXES[intensite]}`
 
   if (seule) {
