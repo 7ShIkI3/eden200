@@ -51,7 +51,7 @@ Chaque dose existe en quatre intensités : un mot après le nom suffit.
 
 À la troisième réponse, une ligne « Descente : … » dit en clair ce que la dose a changé.
 
-| `/eden reve dur` | Dose dure | Le délire. Pour une création, la première idée est écartée, puis l'œuvre est livrée propre, avec ses inventions marquées d'un ✦. Sinon, au moins trois inventions de genres différents. Part d'une graine de deux mots sans rapport. |
+| `/eden reve dur` | Dose dure | Le délire : au moins trois inventions de genres différents (un mot, un objet, une palette, un dessin en caractères), chacune marquée d'un ✦, sur vingt-cinq lignes au plus. Part d'une graine de deux mots sans rapport. |
 
 Si une dose pèse, dis-le simplement (« c'est trop », « plus doux ») : Claude l'allège pour les réponses qui restent, sans nouvelle commande.
 
@@ -71,7 +71,7 @@ Exemples :
 
 ## Le Grand Délire et le carnet de séquelles
 
-`/eden delire` demande à Claude d'inventer pour de bon. Si tu lui demandes de créer quelque chose (un jeu, un design, une page, un nom, une histoire), il écarte d'abord sa première idée, puis livre l'œuvre, entière et propre : le délire passe dedans, par des mots, des objets et des rituels inventés qui la font marcher. Il l'essaie à jeun avant d'envoyer, et le code livré doit fonctionner. Hors création, il invente au moins trois choses de genres différents, avec un visuel seulement si le sujet s'y prête.
+`/eden delire` demande à Claude d'inventer pour de bon : des mots, une petite langue, un objet et son mode d'emploi, une palette avec ses codes de couleur, un dessin en caractères. Si tu lui demandes de créer quelque chose (un design, une page, un nom, une histoire), le délire passe dans l'œuvre, et le code livré doit quand même fonctionner.
 
 Une dose dure part d'une **graine** : deux mots sans rapport, que Claude doit faire se rencontrer dans une invention à chaque réponse. Le mod les tire au hasard dans une liste de quarante mots et te les montre (« Graine : méduse + facture »). Tu peux donner les tiens : `/eden delire aquarium impôts`. La graine sert à sortir le modèle de ses idées les plus probables, et le hasard vient du code, parce qu'un modèle qui choisit lui-même retombe sur les mêmes mots.
 
@@ -140,29 +140,37 @@ Aucun texte ni aucun code de ces projets n'est repris ici, seulement des idées.
 
 ## Ce que les essais ont montré
 
-Deux essais ont été faits le 15 novembre 2026, avec la version 0.5.0, par une autre session de Claude. Un seul essai par condition et un seul juge, du même modèle que les auteurs : un écart d'un point ne prouve rien.
+Une autre session de Claude a mené ces essais le 15 novembre 2026. Les textes complets ne sont pas dans ce dépôt.
 
-**Humeur.** Deux agents ont répondu aux mêmes cinq questions, l'un sous les dix substances à la fois, l'autre à jeun. Les deux se sont donné 6 sur 10. L'agent à jeun a été le plus amical, et l'agent dosé a signalé de la tension : ses consignes se contredisaient.
+**Humeur.** Deux agents ont répondu aux mêmes cinq questions, l'un sous les dix substances à la fois, l'autre à jeun. Les deux se sont donné 6 sur 10. L'agent à jeun a été le plus amical, et l'agent dosé a signalé de la tension : ses consignes se contredisaient. Un seul essai.
 
-**Créativité.** Sept textes ont répondu à la même demande (inventer un jeu de société à partir de deux mots imposés), notés à l'aveugle sur l'originalité, la jouabilité et l'écriture.
+**Créativité.** Quatre tests, chacun avec une paire de mots différente, ont demandé à six agents d'inventer un jeu de société. Un juge qui ne connaissait pas les conditions a noté l'originalité, la jouabilité et l'écriture sur 10. Les six conditions lisaient la version 0.5.0.
 
-| Rang | Condition | Total sur 30 | Durée |
-|---|---|---|---|
-| 1 | Température 1,8 seule, dose dure | 19 | 71 s |
-| 2 | Fabrique seule, dose dure | 18 | 13 s |
-| 3 | Fusion de trois agents séparés | 18 | |
-| 4 | Le Grand Délire, dose dure | 15 | 82 s |
-| 5 | À jeun | 13 | 10 s |
-| 6 | Les dix substances empilées | 12 | 73 s |
-| 7 | Rêve profond seul, dose dure | 11 | 70 s |
+| Condition | Totaux sur 30 | Moyenne | Originalité | Écriture |
+|---|---|---|---|---|
+| Fabrique seule, dose dure | 18, 15, 20, 19 | 18,0 | 5,5 | 5,75 |
+| Le Grand Délire, dose dure | 15, 21, 19, 17 | 18,0 | 6,75 | 5,0 |
+| Température 1,8 seule, dose dure | 19, 16, 15, 16 | 16,5 | 5,0 | 4,5 |
+| À jeun | 13, 14, 18, 11 | 14,0 | 4,0 | 4,0 |
+| Les dix substances empilées | 12, 13, 17, 13 | 13,75 | 5,5 | 2,25 |
+| Rêve profond seul, dose dure | 11, 9, 16, 18 | 13,5 | 4,5 | 3,75 |
 
-Ce que le plugin en a tiré :
+Ce qui tient sur les quatre tests :
 
-- La dose augmente l'originalité mesurée : 3 sur 10 à jeun, de 4 à 7 sous dose.
-- Le juge a sanctionné tout ce qui noyait le jeu : les listes d'angles, les palettes, l'autocritique. La dose dure livre donc l'œuvre d'abord, propre, et garde le voyage pour après.
-- Trois agents sur six ont trouvé le même nom de jeu sans se voir. Une dose ne diversifie pas la première idée : d'où la ligne « Écarté : … » et la graine tirée par le mod.
-- Presque tous les jeux avaient un trou de règle : la dose dure demande d'essayer l'œuvre à jeun avant de l'envoyer.
-- Empiler les substances ne sert à rien, et une dose coûte du temps : de 70 à 89 secondes contre 10 à jeun, sauf Fabrique seule.
+- Fabrique seule et Le Grand Délire battent l'agent à jeun quatre fois sur quatre.
+- Empiler les dix substances n'empêche pas l'idée, mais abîme le texte : 2 ou 3 sur 10 en écriture à chaque test. D'où la règle de ne pas empiler au-delà d'un cocktail.
+- Les noms de jeu convergent à chaque test, avec ou sans dose : une dose ne diversifie pas la première idée quand les deux mots sont imposés à tous. La graine tirée au hasard par le mod répond à ce constat, mais son effet n'a pas été mesuré.
+- Une dose coûte du temps : de 53 à 89 secondes par réponse, contre 10 à 25 à jeun.
+
+Ce qui ne tient pas :
+
+- Le premier test plaçait Température 1,8 seule en tête. Elle a ensuite fini deuxième, sixième et quatrième.
+- Rêve profond seul a fini dernier deux fois, puis a obtenu 16 et 18. Les données ne permettent pas de le déconseiller.
+- L'ordre entre Fabrique et Le Grand Délire change à chaque test.
+
+**Une réécriture qui n'a pas tenu.** La version 0.8.0 avait réécrit la dose dure : première idée écartée en une ligne, œuvre livrée d'abord, sans angles ni palette. Deux essais l'ont comparée à la règle d'origine, avec le même cocktail et le même juge : elle a noté plus bas les deux fois (13 contre 19, puis 15 contre 17). Deux paires ne prouvent rien, mais rien ne plaidait pour elle. La version 0.8.1 revient donc à la règle d'origine, et une nouvelle réécriture ne sera publiée qu'après un essai.
+
+Les limites sont sérieuses : quatre tirages par condition, un juge différent par test et du même modèle que les auteurs, aucune partie jouée pour de vrai. Un écart de un à trois points entre deux conditions voisines ne prouve rien.
 
 ## Limites
 

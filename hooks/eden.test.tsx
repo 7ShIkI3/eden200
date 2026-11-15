@@ -224,14 +224,10 @@ test('/eden delire sert la dose dure : inventions marquées et séquelle demand�
   expect(semee?.[1]).not.toBe(semee?.[2])
   expect(delire.context?.[0]).toContain(`Graine : « ${semee?.[1]} » et « ${semee?.[2]} ».`)
   expect(delire.context?.[0]).toContain('Fabrique. Invention.')
-  // L'œuvre d'abord, la première idée écartée, et pas de décor dans le livrable.
-  expect(delire.context?.[0]).toContain('« Écarté : … », puis pars ailleurs')
-  expect(delire.context?.[0]).toContain("livre ensuite l'œuvre, entière et propre")
-  expect(delire.context?.[0]).toContain("ni liste d'angles, ni palette, ni autocritique")
-  expect(delire.context?.[0]).toContain('simule deux tours d\'un jeu')
-  expect(delire.context?.[0]).toContain('le code livré doit fonctionner')
-  expect(delire.context?.[0]).toContain('Ajoute un visuel seulement si le sujet est visuel')
-  expect(delire.context?.[0]).toContain('invente au moins trois choses de genres différents')
+  // La règle d'origine : celle que les essais à l'aveugle ont le mieux notée.
+  expect(delire.context?.[0]).toContain('Invente au moins trois choses de genres différents')
+  expect(delire.context?.[0]).toContain('le code livré doit quand même fonctionner')
+  expect(delire.context?.[0]).not.toContain('Écarté')
   expect(delire.context?.[0]).toContain('Voyage : Tu inventes sans compter')
   // Les garde-fous restent, et une invention ne passe jamais pour un fait.
   expect(delire.context?.[0]).toContain('restent exacts et sobres')
