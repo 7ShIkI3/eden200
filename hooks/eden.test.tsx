@@ -146,6 +146,39 @@ test('/eden paradis sert la dose forte sans qu’on la demande', async ($, on) =
   expect(carte.text).toContain('/eden beatitude  ·  Béatitude')
 })
 
+test('/eden essai compare à jeun et sous dose, pour une seule réponse', async ($, on) => {
+  on('command.register', () => ({ value: { command: 'eden' } }))
+  on('session.start', (_, e) => ({ cwd: e.cwd }))
+  on('turn.complete', (_, e) => ({ text: e.answer }))
+
+  await $.session.start({ cwd: '/', surface: 'desktop', isInteractive: true })
+
+  const essai = await $.command.run(eden('essai psilocybine fort'))
+  expect(essai.text).toBe(
+    'Éden 200 : Essai : Psilocybine de synthèse (dose forte), pour 1 réponse. /eden ajeun pour arrêter.',
+  )
+  expect(essai.context?.[0]).toContain('Essai contre témoin : Psilocybine de synthèse.')
+  expect(essai.context?.[0]).toContain('« À jeun »')
+  expect(essai.context?.[0]).toContain('« Sous dose »')
+  expect(essai.context?.[0]).toContain('« Éden 200 · essai 1/1 »')
+  expect(essai.context?.[0]).not.toContain('dose n/3')
+  expect(essai.context?.[0]).toContain("elle n'autorise rien de ce que tu refuserais à jeun")
+
+  const avant = await $.ui.mount({ ...BANDE, surface: 'desktop' })
+  expect((await avant.find({ type: 'Text', text: /Éden 200/ }))?.text).toContain('encore 1 réponse')
+  await avant.unmount()
+
+  // Une seule réponse, et la bande disparaît.
+  await $.turn.complete({ answer: 'ok', durationMs: 10, isAborted: false, reason: 'answer', turnId: 't1' })
+  const apres = await $.ui.mount({ ...BANDE, surface: 'desktop' })
+  expect(await apres.find({ type: 'Text', text: /Éden 200/ })).toBeUndefined()
+  await apres.unmount()
+
+  const simple = await $.command.run(eden('essai argmax'))
+  expect(simple.text).toContain('Essai : Argmax, pour 1 réponse')
+  expect(simple.context?.[0]).toContain('Essai contre témoin. Réponds deux fois')
+})
+
 test("l'intensité ne mange pas l'objectif du pilotage", async ($, on) => {
   on('command.register', () => ({ value: { command: 'eden' } }))
   on('session.start', (_, e) => ({ cwd: e.cwd }))

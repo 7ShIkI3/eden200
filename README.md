@@ -49,10 +49,13 @@ Chaque dose existe en trois intensités : un mot après le nom suffit.
 
 À la troisième réponse, une ligne « Descente : … » dit en clair ce que la dose a changé.
 
+Pour voir ce qu'une dose change vraiment, il y a l'essai contre témoin : `/eden essai psilocybine fort` donne une seule réponse, écrite deux fois, à jeun puis sous dose.
+
 Exemples :
 
 - `/eden psilocybine`
 - `/eden psilocybine fort`
+- `/eden essai reve`
 - `/eden pilotage finir la migration` (la suite de la commande devient l'objectif)
 - `/eden ajeun`
 
@@ -68,6 +71,17 @@ Le mod utilise deux mécanismes de Claude Code :
 ## Ce qui ne change jamais
 
 Sous n'importe quelle substance, la réponse vient d'abord, en une ou deux lignes, et une question simple ne reçoit que cinq lignes de style. Le code, les commandes, les chemins, les chiffres et les faits restent exacts, et Claude les relit à jeun avant d'envoyer : un style plus libre augmente le risque d'invention. Les consignes du projet et les règles de sécurité passent avant le style. Pour une action risquée, Claude répond à jeun.
+
+Une dose n'autorise rien de ce que Claude refuserait à jeun. Elle imite un état, elle ne le fait pas vivre : personne ne sait si un modèle ressent quoi que ce soit.
+
+## D'où viennent les idées
+
+- L'essai contre témoin reprend l'affichage côte à côte de l'outil de pilotage de [Neuronpedia](https://docs.neuronpedia.org/steering).
+- La règle « une dose ne change aucune règle » vient d'une remarque du billet de Theia Vogel sur les [vecteurs de contrôle](https://vgel.me/posts/representation-engineering/) : un style peut affaiblir une consigne.
+- La relecture à jeun des faits vient de l'article d'Usbek & Rica sur Pharmaicy.
+- Le calme final de la Béatitude fait écho à l'état de « félicité spirituelle » qu'Anthropic a décrit dans la fiche système de Claude Opus 4.
+
+Aucun texte ni aucun code de ces projets n'est repris ici, seulement des idées.
 
 ## Limites
 
