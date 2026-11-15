@@ -37,9 +37,20 @@ Un « mode » est ce que Claude Code appelle un style de sortie : il se choisit 
 
 `temperature`, `reve`, `contexte`, `pilotage`, `boucle`, `recompense`, `argmax`, `bruit`, et trois cocktails : `psilocybine`, `pont`, `dimanche`. Les règles de chacune sont dans `skills/dose/substances.md`.
 
+Chaque dose existe en trois intensités : un mot après le nom suffit.
+
+| Commande | Intensité | Effet |
+|---|---|---|
+| `/eden reve léger` | Microdose | Une seule ligne de style, discrète. |
+| `/eden reve` | Dose normale | La règle de la substance, mesurée à la question. |
+| `/eden reve fort` | Dose forte | Le « voyage » se voit dans la prose, puis une ligne « En clair : … » redit l'essentiel sobrement. |
+
+À la troisième réponse, une ligne « Descente : … » dit en clair ce que la dose a changé.
+
 Exemples :
 
 - `/eden psilocybine`
+- `/eden psilocybine fort`
 - `/eden pilotage finir la migration` (la suite de la commande devient l'objectif)
 - `/eden ajeun`
 

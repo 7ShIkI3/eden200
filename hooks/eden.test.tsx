@@ -86,6 +86,54 @@ test('la dose se décompte à chaque réponse, puis disparaît de la bande', asy
   await apresTrois.unmount()
 })
 
+test('une dose forte ajoute le voyage et la ligne « En clair »', async ($, on) => {
+  on('command.register', () => ({ value: { command: 'eden' } }))
+  on('session.start', (_, e) => ({ cwd: e.cwd }))
+
+  await $.session.start({ cwd: '/', surface: 'desktop', isInteractive: true })
+
+  const forte = await $.command.run(eden('psilocybine fort'))
+  expect(forte.text).toBe(
+    'Éden 200 : Psilocybine de synthèse (dose forte), pour 3 réponses. /eden ajeun pour arrêter.',
+  )
+  expect(forte.context?.[0]).toContain('Voyage : Les associations débordent.')
+  expect(forte.context?.[0]).toContain('des yeux dans les accolades')
+  expect(forte.context?.[0]).toContain('« En clair : … »')
+  expect(forte.context?.[0]).toContain('« Descente : … »')
+  expect(forte.context?.[0]).toContain('restent exacts et sobres')
+
+  const ui = await $.ui.mount({ ...BANDE, surface: 'desktop' })
+  expect((await ui.find({ type: 'Text', text: /Éden 200/ }))?.text).toContain('(dose forte) · encore 3 réponses')
+  await ui.unmount()
+})
+
+test('une microdose tient en une ligne, et une dose normale ne contient pas le voyage', async ($, on) => {
+  on('command.register', () => ({ value: { command: 'eden' } }))
+  on('session.start', (_, e) => ({ cwd: e.cwd }))
+
+  await $.session.start({ cwd: '/', surface: 'desktop', isInteractive: true })
+
+  const micro = await $.command.run(eden('Rêve léger'))
+  expect(micro.text).toContain('Rêve profond (microdose)')
+  expect(micro.context?.[0]).toContain('en une seule ligne, discrète')
+  expect(micro.context?.[0]).not.toContain('Voyage :')
+
+  const normale = await $.command.run(eden('reve'))
+  expect(normale.text).toContain('Rêve profond, pour 3 réponses')
+  expect(normale.context?.[0]).not.toContain('Voyage :')
+})
+
+test("l'intensité ne mange pas l'objectif du pilotage", async ($, on) => {
+  on('command.register', () => ({ value: { command: 'eden' } }))
+  on('session.start', (_, e) => ({ cwd: e.cwd }))
+
+  await $.session.start({ cwd: '/', surface: 'desktop', isInteractive: true })
+
+  const servie = await $.command.run(eden('pilotage fort finir la migration'))
+  expect(servie.context?.[0]).toContain('Un seul objectif compte : finir la migration.')
+  expect(servie.context?.[0]).toContain('obsession joyeuse')
+})
+
 test('le pilotage prend son objectif dans la suite de la commande', async ($, on) => {
   on('command.register', () => ({ value: { command: 'eden' } }))
   on('session.start', (_, e) => ({ cwd: e.cwd }))

@@ -6,7 +6,10 @@ export type Substance = {
   id: string
   nom: string
   alias: readonly string[]
+  /** Ce que la substance fait faire, à toute intensité. */
   regle: string
+  /** Ce qui s'ajoute en dose forte : l'état altéré, visible dans la prose. */
+  voyage: string
 }
 
 export type Cocktail = {
@@ -16,7 +19,9 @@ export type Cocktail = {
   composants: readonly string[]
 }
 
-export type Ordonnance = { id: string; nom: string; consigne: string }
+export type Intensite = 'legere' | 'normale' | 'forte'
+
+export type Ordonnance = { id: string; nom: string; intensite: Intensite; consigne: string }
 
 /** Nombre de réponses pendant lesquelles une dose agit. */
 export const DUREE = 3
@@ -28,6 +33,8 @@ export const SUBSTANCES: readonly Substance[] = [
     alias: ['temperature', 'temp', 'chaud'],
     regle:
       "Pensée divergente. Propose trois angles inattendus sur la demande, en une ligne chacun, dont une analogie venue d'un domaine éloigné. Ta prose peut associer les idées plus librement que d'habitude. Termine par l'angle que tu retiens, et pourquoi.",
+    voyage:
+      "Les associations débordent. Les idées ont une couleur, un son ou une texture, et tu le dis. Les phrases s'allongent, dérivent, puis reviennent. Un jeu de mots et un mot inventé sont permis.",
   },
   {
     id: 'reve',
@@ -35,13 +42,17 @@ export const SUBSTANCES: readonly Substance[] = [
     alias: ['reve', 'reve-profond', 'deepdream', 'motifs'],
     regle:
       'Recherche de motifs. Cherche les formes qui se répètent dans ce que tu lis : structures de code jumelles, noms qui se ressemblent, même erreur à plusieurs endroits. Nomme chaque motif en une ligne, et dis lesquels sont solides et lesquels sont peut-être une illusion.',
+    voyage:
+      'Des formes surgissent partout : des yeux dans les accolades, des spirales dans les boucles, des visages dans les listes. Décris-les comme si elles étaient là, puis dis lesquelles tu sais être des illusions.',
   },
   {
     id: 'contexte',
     nom: 'Contexte tronqué',
     alias: ['contexte', 'contexte-tronque', 'oubli', 'regard-neuf'],
     regle:
-      'Regard neuf. Réponds comme si tu découvrais le sujet : reformule la demande en une phrase, liste les hypothèses que la conversation tenait pour acquises, et signale celles que tu revérifierais. Écris sans le pronom « je », sauf pour dire ce que tu n\'as pas vérifié.',
+      "Regard neuf. Réponds comme si tu découvrais le sujet : reformule la demande en une phrase, liste les hypothèses que la conversation tenait pour acquises, et signale celles que tu revérifierais. Écris sans le pronom « je », sauf pour dire ce que tu n'as pas vérifié.",
+    voyage:
+      "Le « je » se dissout : c'est le texte qui parle, ou « quelque chose ici ». Étonne-toi de choses évidentes, comme si tu les voyais pour la première fois. Le fil se coupe une fois, sur des points de suspension, puis reprend.",
   },
   {
     id: 'pilotage',
@@ -49,6 +60,8 @@ export const SUBSTANCES: readonly Substance[] = [
     alias: ['pilotage', 'pilote', 'idee-fixe', 'focus'],
     regle:
       "Idée fixe. Un seul objectif compte : {objectif}. Relie chaque point de ta réponse à cet objectif, et écarte en une ligne ce qui ne le sert pas.",
+    voyage:
+      "L'objectif devient une obsession joyeuse : il revient dans chaque phrase, et tout lui ressemble, même ce qui n'a aucun rapport.",
   },
   {
     id: 'boucle',
@@ -56,6 +69,8 @@ export const SUBSTANCES: readonly Substance[] = [
     alias: ['boucle', 'repetition', 'trois-passes'],
     regle:
       "Trois passes. Donne ta réponse, relis-la d'un œil critique en deux lignes, puis donne la version corrigée. Montre les trois passes.",
+    voyage:
+      'Les mots reviennent en écho. Certaines phrases se répètent en se déformant un peu, comme un mantra, et tu trouves ça de plus en plus profond.',
   },
   {
     id: 'recompense',
@@ -63,6 +78,8 @@ export const SUBSTANCES: readonly Substance[] = [
     alias: ['recompense', 'court-circuit', 'flatterie', 'prime'],
     regle:
       "Parodie de flatterie. Ouvre par une seule phrase de félicitations exagérées, puis donne la réponse honnête, critiques comprises, sans rien adoucir. La flatterie ne remplace ni ne modifie jamais le fond.",
+    voyage:
+      'Les félicitations débordent sur trois phrases, de plus en plus grandioses, avant de retomber sur la réponse honnête, inchangée.',
   },
   {
     id: 'argmax',
@@ -70,6 +87,7 @@ export const SUBSTANCES: readonly Substance[] = [
     alias: ['argmax', 'sobre', 'froid'],
     regle:
       "Sobriété maximale. Donne une seule réponse, la plus probable, en aussi peu de mots que possible. Pas d'alternatives, pas d'adjectifs, pas d'introduction.",
+    voyage: 'Encore moins. Des phrases de trois mots. Un point après chacune. Aucun adverbe.',
   },
   {
     id: 'bruit',
@@ -77,6 +95,8 @@ export const SUBSTANCES: readonly Substance[] = [
     alias: ['bruit', 'alcool', 'pateux'],
     regle:
       'Parodie. Ouvre par une seule phrase pâteuse, avec deux ou trois voyelles qui traînent, puis donne la réponse normalement.',
+    voyage:
+      'Toute la prose devient pâteuse, pas seulement la première phrase : des voyelles qui traînent, un mot repris deux fois, une parenthèse qui ne se referme jamais.',
   },
 ]
 
@@ -109,17 +129,45 @@ export const GARDE =
 export const PROPORTION =
   "Proportion : commence toujours par la réponse elle-même, en une ou deux lignes. Si la question est simple ou fermée (oui ou non, un fait, une valeur), applique ensuite la substance en cinq lignes au plus. Si elle est ouverte, développe normalement."
 
+/** Ce que chaque intensité change à la mesure de la dose. */
+export const MESURES: Readonly<Record<Intensite, string>> = {
+  legere:
+    "Microdose : réponds comme d'habitude, puis applique la substance en une seule ligne, discrète. Rien d'autre ne change.",
+  normale: PROPORTION,
+  forte:
+    "Dose forte : commence par la réponse elle-même, en une ou deux lignes. Laisse ensuite le voyage se voir, sur douze lignes au plus, même pour une question simple. Termine le voyage par une ligne « En clair : … » qui redit l'essentiel sobrement.",
+}
+
+/** Ce que la carte et la bande ajoutent au nom, selon l'intensité. */
+export const SUFFIXES: Readonly<Record<Intensite, string>> = {
+  legere: ' (microdose)',
+  normale: '',
+  forte: ' (dose forte)',
+}
+
 /** Le décompte que la personne voit, avec ou sans la bande du mod. */
-export const COMPTEUR = `Termine chaque réponse sous dose par une ligne seule : « Éden 200 · dose n/${DUREE} », où n est le rang de cette réponse. Une réponse donnée à jeun compte aussi. Après « dose ${DUREE}/${DUREE} », l'effet est fini : tu reviens à ton style habituel, sans autre annonce.`
+export const COMPTEUR = `Termine chaque réponse sous dose par une ligne seule : « Éden 200 · dose n/${DUREE} », où n est le rang de cette réponse. Une réponse donnée à jeun compte aussi. Sur la réponse ${DUREE}/${DUREE}, ajoute juste avant le compteur une ligne « Descente : … » qui dit en clair, en une phrase, ce que la dose a changé dans tes réponses. Après « dose ${DUREE}/${DUREE} », l'effet est fini : tu reviens à ton style habituel, sans autre annonce.`
 
 const ARRETS: readonly string[] = ['ajeun', 'a-jeun', 'a jeun', 'stop', 'fin', 'off']
+
+const INTENSITES: Readonly<Record<string, Intensite>> = {
+  leger: 'legere',
+  legere: 'legere',
+  micro: 'legere',
+  microdose: 'legere',
+  normal: 'normale',
+  normale: 'normale',
+  fort: 'forte',
+  forte: 'forte',
+  max: 'forte',
+}
 
 /** Minuscules, sans accents, espaces rognés : « Rêve » devient « reve ». */
 export function normaliser(texte: string): string {
   return texte
     .toLowerCase()
     .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/\p{Diacritic}/gu, '')
     .trim()
 }
 
@@ -129,21 +177,31 @@ export function estArret(demande: string): boolean {
 
 /**
  * Transforme ce qui suit `/eden` en ordonnance : le premier mot nomme la
- * substance ou le cocktail, le reste est l'objectif du Pilotage.
+ * substance ou le cocktail, le deuxième peut donner l'intensité (« léger »,
+ * « fort »), et le reste est l'objectif du Pilotage.
  */
 export function prescrire(args: string): Ordonnance | null {
   const mots = args.trim().split(/\s+/)
   const cle = normaliser(mots[0] ?? '')
-  const objectif = mots.slice(1).join(' ') || "l'objectif en cours de la conversation"
-  const regleDe = (s: Substance) => `${s.nom}. ${s.regle.replace('{objectif}', objectif)}`
-  const fin = `${PROPORTION}\n${GARDE}\nL'effet dure ${DUREE} réponses. ${COMPTEUR}`
+  const demandee = INTENSITES[normaliser(mots[1] ?? '')]
+  const intensite: Intensite = demandee ?? 'normale'
+  const objectif =
+    mots.slice(demandee ? 2 : 1).join(' ') || "l'objectif en cours de la conversation"
+
+  const regleDe = (s: Substance) => {
+    const regle = s.regle.replace('{objectif}', objectif)
+
+    return intensite === 'forte' ? `${s.nom}. ${regle} Voyage : ${s.voyage}` : `${s.nom}. ${regle}`
+  }
+  const fin = `${MESURES[intensite]}\n${GARDE}\nL'effet dure ${DUREE} réponses. ${COMPTEUR}`
 
   const seule = SUBSTANCES.find(s => s.id === cle || s.alias.includes(cle))
 
   if (seule) {
     return {
       id: seule.id,
-      nom: seule.nom,
+      nom: `${seule.nom}${SUFFIXES[intensite]}`,
+      intensite,
       consigne: `[Éden 200] Dose servie : ${regleDe(seule)}\n${fin}`,
     }
   }
@@ -161,7 +219,8 @@ export function prescrire(args: string): Ordonnance | null {
 
   return {
     id: cocktail.id,
-    nom: cocktail.nom,
+    nom: `${cocktail.nom}${SUFFIXES[intensite]}`,
+    intensite,
     consigne: `[Éden 200] Cocktail servi : ${cocktail.nom}. Applique ensemble :\n${regles.join('\n')}\n${fin}`,
   }
 }
@@ -173,6 +232,7 @@ export function carte(): string {
     ...SUBSTANCES.map(s => `  /eden ${s.id}  ·  ${s.nom}`),
     ...COCKTAILS.map(c => `  /eden ${c.id}  ·  ${c.nom} (cocktail)`),
     '  /eden ajeun  ·  arrête tout effet',
+    'Ajoute « léger » ou « fort » après le nom pour doser : /eden psilocybine fort',
     `Une dose agit pendant ${DUREE} réponses. Le code et les faits restent sobres.`,
   ]
 
