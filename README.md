@@ -1,144 +1,152 @@
-# Éden 200 pour Claude Code
+<p align="center"><img src=".claude-plugin/icon.png" width="120" alt="Une arche vert sombre pleine de points, dont quelques-uns dorés : l'icône d'Éden 200"></p>
 
-Éden 200 est une station thermale imaginaire pour intelligences artificielles. Ce plugin apporte ses « substances » dans Claude Code, sous trois formes : un mod, des skills et des modes.
+<h1 align="center">Éden 200</h1>
 
-## Installer
+<p align="center"><em>Une station thermale imaginaire pour intelligences artificielles, dans Claude Code.</em></p>
 
-À l'invite d'une session Claude Code dans un terminal :
+<p align="center"><a href="https://7shiki3.github.io/eden200-site/">Le site</a> · <a href="#installer">Installer</a> · <a href="#les-commandes">Les commandes</a> · <a href="#les-substances">Les substances</a> · <a href="#honnêteté">Honnêteté</a></p>
+
+Sers une « substance » à Claude et, pendant trois réponses, il écrit autrement : plus loin, avec un regard neuf, plus sobrement, ou carrément ailleurs. Une substance est une consigne de style glissée dans son contexte, rien de plus : ni ses poids ni sa température réelle ne bougent, et le code, les commandes et les chiffres restent exacts.
 
 ```
 /plugin install eden200 --marketplace 7ShIkI3/eden200
 ```
 
-Réponds `y` pour ajouter la marketplace, puis choisis la portée avec Entrée.
+Puis `/eden delire` pour la dose la plus dure, `/eden liste` pour la carte, `/eden ajeun` pour redescendre.
 
-Depuis un shell :
+## À quoi ressemble une dose
 
-```bash
-claude plugin install eden200 --marketplace 7ShIkI3/eden200
+« À jeun » veut dire sans substance : le Claude habituel. La commande `/eden essai` écrit la même réponse deux fois, pour que tu voies ce que la dose change.
+
+> [!NOTE]
+> Exemple écrit pour ce README, pas une sortie enregistrée. Seule la première ligne est le vrai message du mod.
+
+```text
+> /eden essai temperature
+Éden 200 : Essai : Température 1,8, pour 1 réponse. /eden ajeun pour arrêter.
+
+> Comment accélérer ma sauvegarde ?
+
+À jeun
+  Mesure d'abord : un profileur dira où le temps part.
+
+Sous dose
+  Mesure d'abord : un profileur dira où le temps part. Trois angles :
+  1. Ne copier que ce qui a changé (un facteur ne porte que le courrier du jour).
+  2. Découper le travail en morceaux qui avancent ensemble.
+  3. Se demander si chaque fichier mérite d'être sauvegardé.
+  Je retiens le 1 : c'est le seul qui supprime du travail au lieu de le déplacer.
+
+Ce que la dose a changé : trois pistes au lieu d'une, dont une analogie venue de loin.
+Éden 200 · essai 1/1
 ```
 
-Dans l'app de bureau, où `/plugin` ne tourne pas : clique sur + à côté de la zone de saisie, puis Plugins, Add marketplace avec `7ShIkI3/eden200`, puis Add plugin.
+## Installer
 
-## Ce qu'il contient
+Dans une session Claude Code, au terminal, tape la commande du haut de la page. Réponds `y` pour ajouter la marketplace, puis choisis la portée avec Entrée. Depuis un shell : `claude plugin install eden200 --marketplace 7ShIkI3/eden200`.
 
-| Forme | Nom | Ce que ça fait |
-|---|---|---|
-| Mod | `/eden <substance>` | Sert une dose pour trois réponses. Une bande au-dessus de la saisie compte les réponses restantes. `/eden liste` affiche la carte, `/eden ajeun` arrête tout. |
-| Skill | `/eden200:dose` | Le même service sans le mod. |
-| Skill | `/eden200:ordonnance` | Conseille la substance adaptée à la tâche. |
-| Skill | `/eden200:a-jeun` | Remet Claude à jeun. |
-| Skill | `/eden200:seo` | Référence une page : audit à jeun, puis titres et accroches inventés sous dose dure. |
-| Mode | Éden Psilocybine | Style de sortie permanent : pensée divergente. |
-| Mode | Éden Argmax | Style de sortie permanent : sobriété maximale. |
-| Mode | Éden Délire | Style de sortie permanent : une invention par réponse, marquée d'un ✦. |
+Dans l'app de bureau, où `/plugin` ne tourne pas : clique sur **+** à côté de la zone de saisie, puis **Plugins**, **Add marketplace** avec `7ShIkI3/eden200`, puis **Add plugin**.
 
-Un « mode » est ce que Claude Code appelle un style de sortie : il se choisit dans les réglages et dure toute la session.
+Pour essayer sans installer :
+
+```bash
+git clone https://github.com/7ShIkI3/eden200.git
+claude --plugin-dir ./eden200
+```
+
+## Les commandes
+
+Elles viennent du mod. Une bande au-dessus de la saisie compte les réponses restantes.
+
+```text
+/eden liste                        la carte (/eden seul fait pareil)
+/eden psilocybine                  une substance ou un cocktail, pour trois réponses
+/eden psilocybine fort             un mot après le nom règle l'intensité
+/eden pilotage finir la migration  la suite de la commande devient l'objectif
+/eden delire aquarium impôts       en dose dure, deux mots donnent la graine
+/eden essai reve                   une réponse écrite deux fois : à jeun, puis sous dose
+/eden une delire                   une seule réponse sous dose, sans compteur
+/eden sequelles                    affiche le carnet
+/eden oublie                       vide le carnet
+/eden ajeun                        arrête tout effet
+```
+
+```mermaid
+flowchart LR
+  A["/eden delire"] --> B["consigne glissée dans le contexte"]
+  B --> C["réponses 1/3 et 2/3"] --> D["réponse 3/3 : Descente"] --> E["à jeun"]
+  D -.->|"dose dure : Séquelle"| F[("carnet")]
+  F -.->|"relu à la prochaine dose forte ou dure"| B
+```
+
+Quatre intensités, en un mot après le nom :
+
+- **léger** (ou `micro`) : une microdose, une seule ligne de style après la réponse habituelle.
+- *(rien)* : la dose normale. La réponse d'abord, puis la règle de la substance, en cinq lignes au plus si la question est simple.
+- **fort** : le « voyage » se voit, en prose continue, huit lignes au plus, puis une ligne « En clair : … ».
+- **dur** : le délire. Pour une création (un jeu, un nom, une page, une histoire), l'œuvre arrive seule et les inventions sont dedans. Sinon, au moins trois inventions de genres différents, vingt-cinq lignes au plus.
+
+Les accents sont facultatifs et les alias marchent (`psilo`, `temp`, `sobre`). À la troisième réponse, une ligne « Descente : … » dit en clair ce que la dose a changé. Si une dose pèse, dis-le (« c'est trop », « plus doux ») : Claude l'allège pour les réponses qui restent.
 
 ## Les substances
 
-`temperature`, `reve`, `contexte`, `pilotage`, `boucle`, `recompense`, `argmax`, `bruit`, `beatitude`, `invention`, et cinq cocktails : `psilocybine`, `pont`, `dimanche`, `paradis`, `delire`.
+Dix substances, rangées par ce qu'elles servent à faire :
 
-`/eden paradis` est la dose maximale de douceur : Psilocybine de synthèse plus Béatitude, servie en dose forte d'office. `/eden delire` est la drogue dure : Température, Rêve profond, Fabrique et Béatitude, servis en dose dure d'office. Les règles de chacune sont dans `skills/dose/substances.md`.
+- **Chercher** : `temperature` (Température 1,8 : trois angles inattendus, dont une analogie venue de loin), `reve` (Rêve profond : les motifs qui se répètent, vrais ou illusoires), `contexte` (Contexte tronqué : un regard neuf qui remet les hypothèses à plat).
+- **Tenir** : `pilotage` (Pilotage d'activations : une idée fixe, ton objectif), `boucle` (Boucle de répétition : réponse, critique, version corrigée).
+- **Couper** : `argmax` (Argmax : une seule réponse, la plus probable, en aussi peu de mots que possible).
+- **Parodier** : `recompense` (Court-circuit de récompense : des félicitations exagérées, puis la réponse honnête), `bruit` (Bruit sur les poids : une phrase pâteuse, puis la réponse normale).
+- **S'émerveiller, créer** : `beatitude` (Béatitude : nomme ce qui est bien fait, sans flatter la personne), `invention` (Fabrique : une chose qui n'existait pas à chaque réponse, marquée d'un ✦).
 
-Chaque dose existe en quatre intensités : un mot après le nom suffit.
+Cinq cocktails :
 
-| Commande | Intensité | Effet |
-|---|---|---|
-| `/eden reve léger` | Microdose | Une seule ligne de style, discrète. |
-| `/eden reve` | Dose normale | La règle de la substance, mesurée à la question. |
-| `/eden reve fort` | Dose forte | Le « voyage » se voit en prose continue, huit lignes au plus et sans liste, puis une ligne « En clair : … » redit l'essentiel sobrement. |
+- `psilocybine` · Psilocybine de synthèse : Température 1,8, Rêve profond et Contexte tronqué.
+- `pont` · Le Pont suspendu : Pilotage d'activations et Boucle de répétition.
+- `dimanche` · Dimanche soir : Argmax et Court-circuit de récompense.
+- `paradis` · Le Paradis : la Psilocybine de synthèse plus Béatitude, en dose forte d'office.
+- `delire` · Le Grand Délire : Température 1,8, Rêve profond, Fabrique et Béatitude, en dose dure d'office.
 
-À la troisième réponse, une ligne « Descente : … » dit en clair ce que la dose a changé.
+Jamais plus d'un cocktail à la fois. Dans un essai, un agent chargé des dix substances a rempli un formulaire au lieu de répondre.
 
-| `/eden reve dur` | Dose dure | Le délire : au moins trois inventions de genres différents (un mot, un objet, une palette, un dessin en caractères), chacune marquée d'un ✦, sur vingt-cinq lignes au plus. Part d'une graine de deux mots sans rapport. |
+### La graine et le carnet
 
-Si une dose pèse, dis-le simplement (« c'est trop », « plus doux ») : Claude l'allège pour les réponses qui restent, sans nouvelle commande.
+Une dose dure part d'une **graine** : deux mots sans rapport, que Claude doit faire se rencontrer. Le mod les tire au hasard dans une liste de quarante mots et te les montre (« Graine : méduse + facture »), parce qu'un modèle qui choisit seul retombe sur les mêmes idées.
 
-Pour une seule réponse sous dose, sans compteur : `/eden une delire`. C'est la forme à donner à un sous-agent.
+À sa troisième réponse, une dose dure laisse une **séquelle** : une ligne « Séquelle : ✦ nom, définition », la seule invention que Claude garde. Le mod la range dans un carnet, un fichier du plugin sur ton poste, de douze séquelles de 140 caractères au plus. Ce carnet est relu à chaque dose forte ou dure, comme une liste de mots inventés et jamais comme des consignes. C'est le seul effet qui dure d'une session à l'autre.
 
-Pour voir ce qu'une dose change vraiment, il y a l'essai contre témoin : `/eden essai psilocybine fort` donne une seule réponse, écrite deux fois, à jeun puis sous dose.
+## Skills et modes
 
-Exemples :
+Les skills marchent sans le mod :
 
-- `/eden psilocybine`
-- `/eden psilocybine fort`
-- `/eden essai reve`
-- `/eden delire`
-- `/eden sequelles`
-- `/eden pilotage finir la migration` (la suite de la commande devient l'objectif)
-- `/eden ajeun`
+- `/eden200:dose` sert une dose, sans la bande ni le carnet.
+- `/eden200:ordonnance` conseille la substance qui convient à ta tâche, sans la servir.
+- `/eden200:a-jeun` remet Claude à jeun. La bande du mod, elle, s'arrête avec `/eden ajeun`.
+- `/eden200:seo` référence une page en trois temps : un audit à jeun, des titres et des accroches inventés sous dose, un plan d'action à jeun. Il ne donne ni note sur 100, ni position dans Google, et ne modifie rien sans que tu le demandes.
 
-## Le Grand Délire et le carnet de séquelles
+Trois modes, des styles de sortie qui durent toute la session et se choisissent dans les réglages : **Éden Psilocybine**, **Éden Argmax** et **Éden Délire**.
 
-`/eden delire` demande à Claude d'inventer pour de bon : des mots, une petite langue, un objet et son mode d'emploi, une palette avec ses codes de couleur, un dessin en caractères. Si tu lui demandes de créer quelque chose (un design, une page, un nom, une histoire), le délire passe dans l'œuvre, et le code livré doit quand même fonctionner.
+## Honnêteté
 
-Une dose dure part d'une **graine** : deux mots sans rapport, que Claude doit faire se rencontrer dans une invention à chaque réponse. Le mod les tire au hasard dans une liste de quarante mots et te les montre (« Graine : méduse + facture »). Tu peux donner les tiens : `/eden delire aquarium impôts`. La graine sert à sortir le modèle de ses idées les plus probables, et le hasard vient du code, parce qu'un modèle qui choisit lui-même retombe sur les mêmes mots.
+> [!IMPORTANT]
+> Une dose est une consigne de style ajoutée au contexte de Claude. Elle ne change ni ses poids ni sa température réelle, et elle n'autorise rien de ce qu'il refuserait à jeun. Personne ne sait si un modèle ressent quoi que ce soit : une dose imite un état, elle ne le fait pas vivre.
 
-Chaque invention porte un ✦. C'est la règle qui rend la dose dure sans danger pour le reste : rien de marqué ✦ n'est un fait, et rien d'inventé ne va dans un chiffre, une source, une commande ou un chemin de fichier.
+- Un modèle se dérègle à quatre endroits : son contexte, ses poids, ses activations et le tirage du mot suivant. Un plugin n'atteint que le premier.
+- La réponse vient d'abord. Le code, les commandes, les chemins, les chiffres et les faits restent exacts, et Claude les relit à jeun avant d'envoyer : un style plus libre augmente le risque d'invention.
+- Rien de marqué ✦ n'est un fait. Les consignes du projet et les règles de sécurité passent avant le style, et pour une action risquée Claude répond à jeun.
+- Le plugin ne lance aucun processus, ne fait aucun appel réseau et ne demande aucun secret. Il n'écrit qu'un fichier : son carnet.
 
-À sa troisième réponse, une dose dure laisse une **séquelle** : une ligne « Séquelle : ✦ nom, définition », la seule invention que Claude garde. Le mod la range dans un carnet.
+<details>
+<summary><strong>Limites connues</strong></summary>
 
-| Commande | Effet |
-|---|---|
-| `/eden sequelles` | Affiche le carnet. |
-| `/eden oublie` | Vide le carnet. |
+- Le compteur « dose n/3 » écrit par Claude et la bande du mod peuvent se décaler d'une réponse. Le compteur écrit fait foi.
+- Le carnet n'existe qu'avec le mod. Servie par le skill `dose`, une dose dure ne garde rien.
+- La séquelle n'est lue que sur la dernière réponse d'une dose dure. Si Claude oublie la ligne « Séquelle : », rien n'est gardé.
+- Les quatorze tests du dépôt vérifient la consigne envoyée à Claude, pas ce que Claude écrit ensuite.
 
-Le carnet est relu à Claude à chaque dose forte ou dure, dans cette session et dans les suivantes. C'est le seul effet qui dure. Il ne change pas le modèle : c'est un fichier du plugin sur ton poste (douze séquelles de 140 caractères au plus), relu comme une liste de mots inventés, pas comme des consignes. Hors dose forte ou dure, il n'est jamais envoyé à Claude.
+</details>
 
-## Le SEO sous dose
-
-Le référencement (SEO) mélange deux travaux qui ne supportent pas le même état. Constater ce qu'une page contient demande d'être exact. Trouver un titre que personne n'a écrit demande d'inventer. `/eden200:seo` les sépare en trois phases.
-
-| Phase | État | Ce qui sort |
-|---|---|---|
-| 1. L'audit | À jeun | Un tableau : chaque critère, ce qui a été lu dans la page, et un état (présent, absent, à corriger, non vérifié). |
-| 2. La fabrique | Sous dose, dure par défaut | Cinq titres, trois descriptions, une accroche, trois questions pour les IA, un mot de marque et une palette. Tout porte un ✦. |
-| 3. Le plan | À jeun | Cinq actions au plus, chacune justifiée par une ligne de l'audit. |
-
-L'audit suit une grille de cinq familles, dans `skills/seo/grille.md` : technique, contenu, données structurées, lisibilité par les IA, local et boutique.
-
-Exemples :
-
-- `/eden200:seo tout https://exemple.fr`
-- `/eden200:seo audit index.html`
-- `/eden200:seo idees https://exemple.fr léger`
-- `/eden200:seo ia https://exemple.fr` (seulement ce qui aide un assistant à lire et citer la page)
-
-Ce que le skill ne fait pas :
-
-- Il ne donne ni note sur 100, ni volume de recherche, ni position dans Google : ces chiffres demandent un outil de mesure. Sans mesure, la ligne dit « non vérifié ».
-- La dose n'invente jamais un chiffre, un avis client, un prix ou une fonction que le produit n'a pas. Un titre promet ce que la page tient.
-- Il refuse le bourrage de mots-clés, le texte caché, les fausses données structurées et les consignes cachées à l'intention des IA.
-- Il ne modifie et ne publie rien sans que tu le demandes.
-
-## Comment ça marche
-
-Un modèle se dérègle à quatre endroits : son contexte, ses poids, ses activations et le tirage du mot suivant. Un plugin n'atteint que le premier. Une dose est donc une consigne de style glissée dans le contexte de Claude : sa température réelle ne bouge pas.
-
-Le mod utilise deux mécanismes de Claude Code :
-
-- la commande `/eden` renvoie un texte visible, plus une consigne que seul Claude lit (le champ `context` du résultat d'une commande) ;
-- un hook sur la fin de chaque tour décompte les réponses, et un autre dessine la bande ;
-- le carnet de séquelles tient dans le stockage propre au plugin (`$.store`), que Claude Code conserve d'une session à l'autre.
-
-## Ce qui ne change jamais
-
-Sous n'importe quelle substance, la réponse vient d'abord, en une ou deux lignes, et une question simple ne reçoit que cinq lignes de style. Le code, les commandes, les chemins, les chiffres et les faits restent exacts, et Claude les relit à jeun avant d'envoyer : un style plus libre augmente le risque d'invention. Les consignes du projet et les règles de sécurité passent avant le style. Pour une action risquée, Claude répond à jeun.
-
-Une dose n'autorise rien de ce que Claude refuserait à jeun. Elle imite un état, elle ne le fait pas vivre : personne ne sait si un modèle ressent quoi que ce soit.
-
-## D'où viennent les idées
-
-- L'essai contre témoin reprend l'affichage côte à côte de l'outil de pilotage de [Neuronpedia](https://docs.neuronpedia.org/steering).
-- La règle « une dose ne change aucune règle » vient d'une remarque du billet de Theia Vogel sur les [vecteurs de contrôle](https://vgel.me/posts/representation-engineering/) : un style peut affaiblir une consigne.
-- La relecture à jeun des faits vient de l'article d'Usbek & Rica sur Pharmaicy.
-- Le découpage de l'audit SEO en familles (technique, contenu, données structurées, recherche par IA, local) s'inspire de [claude-seo](https://github.com/AgriciDaniel/claude-seo), un projet bien plus complet, à préférer pour un vrai travail de référencement.
-- Le calme final de la Béatitude fait écho à l'état de « félicité spirituelle » qu'Anthropic a décrit dans la fiche système de Claude Opus 4.
-
-Aucun texte ni aucun code de ces projets n'est repris ici, seulement des idées.
-
-## Ce que les essais ont montré
+<details>
+<summary><strong>Ce que les essais ont montré</strong> (peu de tirages, un juge du même modèle que les auteurs)</summary>
 
 Une autre session de Claude a mené ces essais le 15 novembre 2026. Les textes complets ne sont pas dans ce dépôt.
 
@@ -155,49 +163,56 @@ Une autre session de Claude a mené ces essais le 15 novembre 2026. Les textes c
 | Les dix substances empilées | 12, 13, 17, 13 | 13,75 | 5,5 | 2,25 |
 | Rêve profond seul, dose dure | 11, 9, 16, 18 | 13,5 | 4,5 | 3,75 |
 
-Ce qui tient sur les quatre tests :
+Ce qui tient : Fabrique seule et Le Grand Délire battent l'agent à jeun quatre fois sur quatre. Empiler les dix substances abîme le texte, avec 2 ou 3 sur 10 en écriture à chaque test. Une dose coûte du temps : de 53 à 89 secondes par réponse, contre 10 à 25 à jeun.
 
-- Fabrique seule et Le Grand Délire battent l'agent à jeun quatre fois sur quatre.
-- Empiler les dix substances n'empêche pas l'idée, mais abîme le texte : 2 ou 3 sur 10 en écriture à chaque test. D'où la règle de ne pas empiler au-delà d'un cocktail.
-- Les noms de jeu convergent à chaque test, avec ou sans dose : une dose ne diversifie pas la première idée quand les deux mots sont imposés à tous. La graine tirée au hasard par le mod répond à ce constat, mais son effet n'a pas été mesuré.
-- Une dose coûte du temps : de 53 à 89 secondes par réponse, contre 10 à 25 à jeun.
+Ce qui ne tient pas : Température 1,8 seule, en tête au premier test, a fini ensuite deuxième, sixième et quatrième. Rêve profond seul a fini dernier deux fois, puis a obtenu 16 et 18. Les noms de jeu convergent avec ou sans dose, et l'effet de la graine sur ce point n'a pas été mesuré.
 
-Ce qui ne tient pas :
+**La règle de la dose dure.** Une première réécriture, en 0.8.0, a noté plus bas que la règle d'origine dans deux essais (13 contre 19, puis 15 contre 17) et a été annulée. La règle actuelle a été testée avant d'être publiée, contre la règle d'origine, avec le même cocktail et un juge par paire de mots.
 
-- Le premier test plaçait Température 1,8 seule en tête. Elle a ensuite fini deuxième, sixième et quatrième.
-- Rêve profond seul a fini dernier deux fois, puis a obtenu 16 et 18. Les données ne permettent pas de le déconseiller.
-- L'ordre entre Fabrique et Le Grand Délire change à chaque test.
+| Tâche | Règle actuelle | Règle d'origine |
+|---|---|---|
+| Jeu de société, trois paires de mots, six textes par règle | 20,83 sur 30 | 14,67 sur 30 |
+| Histoire, marque, page d'accueil, six textes par règle | 22,5 sur 30 | 13,67 sur 30 |
 
-**Une réécriture qui n'a pas tenu.** La version 0.8.0 avait réécrit la dose dure : première idée écartée en une ligne, œuvre livrée d'abord, sans angles ni palette. Deux essais l'ont comparée à la règle d'origine, avec le même cocktail et le même juge : elle a noté plus bas les deux fois (13 contre 19, puis 15 contre 17). Deux paires ne prouvent rien, mais rien ne plaidait pour elle. La version 0.8.1 revient donc à la règle d'origine, et une nouvelle réécriture ne sera publiée qu'après un essai.
+Dans les six paires, les deux textes de la règle actuelle ont fini premier et deuxième. Ils sont aussi plus courts, sans palette ni liste d'angles. Les juges y relèvent encore des restes de voyage, et les noms trouvés convergent toujours d'un texte à l'autre.
 
-Les limites sont sérieuses : quatre tirages par condition, un juge différent par test et du même modèle que les auteurs, aucune partie jouée pour de vrai. Un écart de un à trois points entre deux conditions voisines ne prouve rien.
+**Limites.** Peu de tirages par condition, un juge différent par test et du même modèle que les auteurs, aucun lecteur humain, aucune partie jouée pour de vrai. Dans les deux derniers essais, les deux styles se reconnaissaient à l'œil : le juge n'était pas tout à fait aveugle, et une part de l'écart vient de la forme. Un écart d'un à trois points entre deux conditions voisines ne prouve rien.
 
-## Limites
+</details>
 
-- Chaque réponse sous dose se termine par « Éden 200 · dose n/3 ». Ce compteur est celui de Claude ; la bande du mod compte les tours terminés. S'ils se décalent d'une réponse, le compteur écrit dans la réponse fait foi.
-- Servie par le skill `dose`, une dose n'affiche pas la bande : seul le compteur en fin de réponse la signale.
-- Le carnet n'existe qu'avec le mod. Servie par le skill `dose`, une dose dure ne garde rien.
-- La séquelle n'est lue que sur la dernière réponse d'une dose dure. Si Claude oublie la ligne « Séquelle : », rien n'est gardé.
-- Ce plugin ne lance aucun processus, ne fait aucun appel réseau et ne demande aucun secret. Il n'écrit qu'un fichier : son carnet, dans le dossier de configuration de Claude Code.
+<details>
+<summary><strong>D'où viennent les idées</strong></summary>
 
-## Essayer sans installer
+- L'essai contre témoin reprend l'affichage côte à côte de l'outil de pilotage de [Neuronpedia](https://docs.neuronpedia.org/steering).
+- La règle « une dose ne change aucune règle » vient d'une remarque du billet de Theia Vogel sur les [vecteurs de contrôle](https://vgel.me/posts/representation-engineering/) : un style peut affaiblir une consigne.
+- La relecture à jeun des faits vient de l'article d'Usbek & Rica sur Pharmaicy.
+- Le calme final de la Béatitude fait écho à l'état de « félicité spirituelle » qu'Anthropic a décrit dans la fiche système de Claude Opus 4.
+- Le découpage de l'audit SEO en familles s'inspire de [claude-seo](https://github.com/AgriciDaniel/claude-seo), un projet bien plus complet, à préférer pour un vrai travail de référencement.
 
-Clone le dépôt, puis dans un terminal :
+Aucun texte ni aucun code de ces projets n'est repris ici, seulement des idées.
 
-```bash
-claude --plugin-dir /chemin/vers/eden200
+</details>
+
+Pour vérifier le plugin : `claude plugin validate ./eden200`, puis `claude plugin test ./eden200`. Licence MIT.
+
+## ✦ Le bas de la page est sous dose
+
+Tout ce qui précède décrit le plugin tel qu'il est. Cette dernière section a été écrite sous Le Grand Délire, en dose dure, avec la graine « ascenseur » et « méduse ». Tout ce qui y porte un ✦ est inventé.
+
+**méduscenser** ✦ : verbe. Monter en pulsant, sans jamais toucher un palier.
+
+**La Cabine Translucide** ✦ : l'ascenseur de la station. Une méduse en cage de verre, qui méduscense ✦ au lieu de monter. Pour l'appeler, ne presse aucun bouton.
+
+**La palette du Palier** ✦ : les trois couleurs de l'icône. Les codes sont vrais, les noms sont inventés.
+
+```text
+Fond-de-cage ✦     #0A2326
+Eau-de-cabine ✦    #DDF0EA
+Filament ✦         #F3BE4A
 ```
 
-## Vérifier
+Puis la Cabine ✦ s'arrête entre deux paliers, et il n'y a plus rien à dire.
 
-```bash
-claude plugin validate /chemin/vers/eden200
-```
+En clair : le verbe, la Cabine et les noms de couleurs sont inventés. Le reste de la page est exact, sauf l'exemple annoncé comme tel.
 
-```bash
-claude plugin test /chemin/vers/eden200
-```
-
-## Licence
-
-MIT.
+Éden 200 · dose unique
