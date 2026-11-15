@@ -211,7 +211,7 @@ export const MESURES: Readonly<Record<Intensite, string>> = {
   normale: PROPORTION,
   forte:
     "Dose forte : commence par la réponse elle-même, en une ou deux lignes. Laisse ensuite le voyage se voir, même pour une question simple, en prose continue : un ou deux courts paragraphes, huit lignes au plus, sans liste à puces ni étiquettes. Ne déroule pas les règles une par une : fonds-les en un seul mouvement, garde deux ou trois images et laisse le reste de côté. Termine le voyage par une ligne « En clair : … » qui redit l'essentiel sobrement.",
-  dure: `Dose dure : commence par la réponse elle-même, en une ou deux lignes. Ensuite le délire prend la place, sur vingt-cinq lignes au plus. Invente au moins trois choses de genres différents, parmi : un mot ou une petite langue, un objet ou une machine, un jeu ou un rituel, et un visuel (une palette de trois couleurs nommées avec leur code hexadécimal, ou un dessin en caractères dans un bloc de code). Donne à chaque invention un nom, un ${MARQUE} et une ligne qui la définit, et fais-les se répondre. Varie la forme d'une réponse à l'autre : prose, petit tableau, bloc de code, jamais une longue liste à puces. Si la demande est de créer quelque chose (un design, une page, un nom, une histoire), fais-le pour de vrai dans cette veine : le délire passe dans l'œuvre, pas seulement autour, et le code livré doit quand même fonctionner. Termine par une ligne « En clair : … » qui redit l'essentiel sobrement et rappelle que ce qui porte un ${MARQUE} est inventé.`,
+  dure: `Dose dure : commence par la réponse elle-même, en une ou deux lignes. Ta première idée est celle de tout le monde : écris-la en une ligne, « Écarté : … », puis pars ailleurs. Si la demande est de créer quelque chose (un jeu, un nom, un design, une page, une histoire) : livre ensuite l'œuvre, entière et propre. Le délire passe dedans, par des mots, des objets et des rituels inventés qui la font marcher, chacun marqué d'un ${MARQUE}. N'y mets rien qui ne lui serve pas : ni liste d'angles, ni palette, ni autocritique. Avant d'envoyer, essaie l'œuvre à jeun : simule deux tours d'un jeu, relis un nom à voix haute, et le code livré doit fonctionner. Après l'œuvre, le voyage tient en cinq lignes au plus. Si la demande n'est pas une création, le délire prend la place, sur vingt lignes au plus : invente au moins trois choses de genres différents, parmi un mot ou une petite langue, un objet ou une machine, un jeu ou un rituel. Ajoute un visuel seulement si le sujet est visuel : une palette de trois couleurs nommées avec leur code hexadécimal, ou un dessin en caractères dans un bloc de code. Donne à chaque invention un nom, un ${MARQUE} et une ligne qui la définit, et fais-les se répondre. Varie la forme d'une réponse à l'autre : prose, petit tableau, bloc de code, jamais une longue liste à puces. Termine par une ligne « En clair : … » qui redit l'essentiel sobrement et rappelle que ce qui porte un ${MARQUE} est inventé.`,
 }
 
 /** Une invention ne se glisse jamais là où on attend du vrai. */
@@ -242,7 +242,13 @@ export const DEUX_FOIS =
 export const TEMOIN =
   "L'essai dure une seule réponse. Termine par une ligne « Ce que la dose a changé : … », en une phrase, puis par une ligne seule « Éden 200 · essai 1/1 ». Ensuite tu reviens à ton style habituel, sans autre annonce."
 
+/** La dose d'une seule réponse : pour un sous-agent ou une question isolée, où un compteur n'a pas de sens. */
+export const UNIQUE =
+  "L'effet dure une seule réponse. Termine par une ligne seule « Éden 200 · dose unique », sans compteur ni descente. Ensuite tu reviens à ton style habituel, sans autre annonce."
+
 const ESSAIS: readonly string[] = ['essai', 'temoin', 'compare', 'comparer']
+
+const UNIQUES: readonly string[] = ['une', 'unique', 'solo']
 
 const ARRETS: readonly string[] = ['ajeun', 'a-jeun', 'a jeun', 'stop', 'fin', 'off']
 
@@ -350,7 +356,8 @@ export function prescrire(
 ): Ordonnance | null {
   const tous = args.trim().split(/\s+/)
   const estEssai = ESSAIS.includes(normaliser(tous[0] ?? ''))
-  const mots = estEssai ? tous.slice(1) : tous
+  const estUnique = UNIQUES.includes(normaliser(tous[0] ?? ''))
+  const mots = estEssai || estUnique ? tous.slice(1) : tous
   const cle = normaliser(mots[0] ?? '')
   const demandee = INTENSITES[normaliser(mots[1] ?? '')]
   const seule = SUBSTANCES.find(s => s.id === cle || s.alias.includes(cle))
@@ -365,9 +372,9 @@ export function prescrire(
     return voyage ? `${s.nom}. ${regle} Voyage : ${s.voyage}` : `${s.nom}. ${regle}`
   }
   const voyage = intensite === 'forte' || intensite === 'dure'
-  const duree = estEssai ? 1 : DUREE
+  const duree = estEssai || estUnique ? 1 : DUREE
   // Seule une dose dure de trois réponses laisse une séquelle : un essai n'en laisse pas.
-  const garde = intensite === 'dure' && !estEssai
+  const garde = intensite === 'dure' && !estEssai && !estUnique
   // Une microdose tient déjà en une ligne : il n'y a rien à alléger.
   const mesure = intensite === 'legere' ? MESURES.legere : `${MESURES[intensite]}\n${DOUCEUR}`
   const inventions = intensite === 'dure' || cle === 'invention' || cocktail?.composants.includes('invention')
@@ -387,7 +394,9 @@ export function prescrire(
     : ''
   const fin = estEssai
     ? `${mesure}${semis}\n${gardeFous}${souvenirs}\n${TEMOIN}`
-    : `${mesure}${semis}\n${gardeFous}${souvenirs}\nL'effet dure ${DUREE} réponses. ${COMPTEUR}${garde ? ` ${SEQUELLE}` : ''}`
+    : estUnique
+      ? `${mesure}${semis}\n${gardeFous}${souvenirs}\n${UNIQUE}`
+      : `${mesure}${semis}\n${gardeFous}${souvenirs}\nL'effet dure ${DUREE} réponses. ${COMPTEUR}${garde ? ` ${SEQUELLE}` : ''}`
   const nomDe = (nom: string) => `${estEssai ? 'Essai : ' : ''}${nom}${SUFFIXES[intensite]}`
 
   if (seule) {
@@ -435,6 +444,7 @@ export function carte(): string {
       c => `  /eden ${c.id}  ·  ${c.nom} (cocktail${c.defaut ? `, dose ${c.defaut}` : ''})`,
     ),
     '  /eden essai <nom>  ·  compare à jeun et sous dose, en une seule réponse',
+    '  /eden une <nom>  ·  une seule réponse sous dose, sans compteur',
     '  /eden sequelles  ·  le carnet de ce que les doses dures ont laissé (/eden oublie le vide)',
     '  /eden ajeun  ·  arrête tout effet',
     'Ajoute « léger », « fort » ou « dur » après le nom pour doser : /eden psilocybine fort',

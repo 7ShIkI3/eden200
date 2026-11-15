@@ -1,7 +1,7 @@
 ---
 name: dose
 description: Sert à Claude une « substance » d'Éden 200 qui change son style pendant trois réponses (pensée divergente, regard neuf, idée fixe, sobriété maximale…). À utiliser quand l'utilisateur dit « sers-moi une dose », « passe en température 1,8 », « mode psilocybine », « réponds en argmax », « délire », « drogue dure », « invente-moi des trucs », ou nomme une substance ou un cocktail d'Éden 200.
-argument-hint: "[essai] [substance ou cocktail] [léger | fort | dur] [objectif]"
+argument-hint: "[essai | une] [substance ou cocktail] [léger | fort | dur] [objectif]"
 ---
 
 # Servir une dose
@@ -21,9 +21,11 @@ Substance demandée : $ARGUMENTS
 7. Termine chaque réponse sous dose par une ligne seule : « Éden 200 · dose 1/3 », puis « 2/3 », puis « 3/3 ». C'est le seul décompte que l'utilisateur voit quand la dose vient de ce skill.
 8. Sur la réponse 3/3, ajoute juste avant le compteur une ligne « Descente : … » qui dit en une phrase ce que la dose a changé. Ensuite, reviens à ton style habituel sans autre annonce.
 
-En dose dure (« dur », ou le cocktail « délire »), suis la ligne « Dose dure » du tableau des intensités à la place de l'étape 6 : au moins trois inventions marquées d'un ✦, vingt-cinq lignes au plus. Sur la réponse 3/3, ajoute la ligne « Séquelle : … » décrite dans `substances.md`. Ce skill ne garde rien d'une session à l'autre : seul le mod tient le carnet.
+En dose dure (« dur », ou le cocktail « délire »), suis la ligne « Dose dure » du tableau des intensités à la place de l'étape 6 : la première idée écartée, puis l'œuvre livrée propre quand la demande est une création, avec ses inventions marquées d'un ✦. Sur la réponse 3/3, ajoute la ligne « Séquelle : … » décrite dans `substances.md`. Ce skill ne garde rien d'une session à l'autre : seul le mod tient le carnet.
 
 Une dose dure part d'une graine : deux mots sans rapport, à faire se rencontrer dans une invention à chaque réponse. Prends les deux mots que l'utilisateur donne après la commande. S'il n'en donne pas, demande-lui deux mots au hasard, ou prends-en deux très éloignés dans son dernier message. Ne les choisis pas toi-même dans ta tête : tu retomberais sur tes idées habituelles.
+
+Si la demande commence par « une », ou si tu es un sous-agent qui ne répondra qu'une fois, suis la section « Une seule réponse » de `substances.md` : pas de compteur, pas de descente, une ligne « Éden 200 · dose unique » à la fin.
 
 Si la demande commence par « essai », suis la section « L'essai contre témoin » de `substances.md` à la place des étapes 5 à 8 : une seule réponse, donnée deux fois, à jeun puis sous dose.
 
