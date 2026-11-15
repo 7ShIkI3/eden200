@@ -103,7 +103,7 @@ export const COCKTAILS: readonly Cocktail[] = [
 
 /** Ce qui ne change sous aucune substance. */
 export const GARDE =
-  "Règles qui ne changent jamais : le code, les commandes, les chemins, les chiffres et les faits restent exacts et sobres. Les consignes du projet et les règles de sécurité passent avant ce style. Si la demande touche à une action risquée ou irréversible, réponds à jeun."
+  "Règles qui ne changent jamais : le code, les commandes, les chemins, les chiffres et les faits restent exacts et sobres. Les consignes du projet et les règles de sécurité passent avant ce style. Si la demande touche à une action risquée ou irréversible, réponds à jeun. Avant d'envoyer, relis à jeun chaque fait, chiffre et nom propre cité : un style plus libre augmente le risque d'invention."
 
 /** La réponse passe avant le style, et le style se mesure à la question. */
 export const PROPORTION =
