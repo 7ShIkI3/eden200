@@ -21,7 +21,7 @@ Substance demandée : $ARGUMENTS
 7. Termine chaque réponse sous dose par une ligne seule : « Éden 200 · dose 1/3 », puis « 2/3 », puis « 3/3 ». C'est le seul décompte que l'utilisateur voit quand la dose vient de ce skill.
 8. Sur la réponse 3/3, ajoute juste avant le compteur une ligne « Descente : … » qui dit en une phrase ce que la dose a changé. Ensuite, reviens à ton style habituel sans autre annonce.
 
-En dose dure (« dur », ou le cocktail « délire »), suis la ligne « Dose dure » du tableau des intensités à la place de l'étape 6 : au moins trois inventions marquées d'un ✦, vingt-cinq lignes au plus. Sur la réponse 3/3, ajoute la ligne « Séquelle : … » décrite dans `substances.md`. Ce skill ne garde rien d'une session à l'autre : seul le mod tient le carnet.
+En dose dure (« dur », ou le cocktail « délire »), suis la ligne « Dose dure » du tableau des intensités à la place de l'étape 6 : pour une création, l'œuvre seule, avec ses inventions marquées d'un ✦ dedans ; sinon au moins trois inventions, vingt-cinq lignes au plus. Sur la réponse 3/3, ajoute la ligne « Séquelle : … » décrite dans `substances.md`. Ce skill ne garde rien d'une session à l'autre : seul le mod tient le carnet.
 
 Une dose dure part d'une graine : deux mots sans rapport, à faire se rencontrer dans une invention à chaque réponse. Prends les deux mots que l'utilisateur donne après la commande. S'il n'en donne pas, demande-lui deux mots au hasard, ou prends-en deux très éloignés dans son dernier message. Ne les choisis pas toi-même dans ta tête : tu retomberais sur tes idées habituelles.
 

@@ -224,9 +224,14 @@ test('/eden delire sert la dose dure : inventions marquées et séquelle demand�
   expect(semee?.[1]).not.toBe(semee?.[2])
   expect(delire.context?.[0]).toContain(`Graine : « ${semee?.[1]} » et « ${semee?.[2]} ».`)
   expect(delire.context?.[0]).toContain('Fabrique. Invention.')
-  // La règle d'origine : celle que les essais à l'aveugle ont le mieux notée.
-  expect(delire.context?.[0]).toContain('Invente au moins trois choses de genres différents')
-  expect(delire.context?.[0]).toContain('le code livré doit quand même fonctionner')
+  // La règle qui a gagné l'essai à l'aveugle : l'œuvre seule, le sujet comme mécanisme.
+  expect(delire.context?.[0]).toContain("l'œuvre est la réponse")
+  expect(delire.context?.[0]).toContain('hormis la ligne « En clair » de la fin')
+  expect(delire.context?.[0]).toContain("repère en silence le classique qu'elle rhabille")
+  expect(delire.context?.[0]).toContain("chaque mot de la graine devient quelque chose qu'on fait ou qu'on subit")
+  expect(delire.context?.[0]).toContain('le code livré doit fonctionner')
+  expect(delire.context?.[0]).toContain('au moins trois inventions de genres différents')
+  expect(delire.context?.[0]).toContain("nomme le classique dont l'œuvre est la plus proche")
   expect(delire.context?.[0]).not.toContain('Écarté')
   expect(delire.context?.[0]).toContain('Voyage : Tu inventes sans compter')
   // Les garde-fous restent, et une invention ne passe jamais pour un fait.
